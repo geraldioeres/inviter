@@ -1,0 +1,62 @@
+.card-title,
+.title {
+  margin-bottom: 2px !important;
+}
+
+.card-image {
+  position: relative;
+  padding: 10px 5px 0px 5px;
+}
+
+.bottom-left {
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  bottom: 8px;
+  left: 16px;
+  background: rgba(58, 58, 58, 0.555);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.bottom-right {
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  bottom: 8px;
+  right: 16px;
+  background: rgba(58, 58, 58, 0.555);
+  padding: 3px 8px;
+  border-radius: 10px;
+}
+
+.activity-image {
+  border-radius: 10px;
+  width: 246px;
+  height: 180px;
+}
+
+.host-data {
+  text-align: left;
+}
+
+.profile {
+  float: left;
+  margin: 8px 5px 0px 8px;
+}
+
+.host,
+.username {
+  margin-left: 15px;
+  display: block;
+  margin: 2px 0 0 0;
+}
+
+.host {
+  padding-top: 1px;
+  margin-bottom: 0px;
+}
+
+.username {
+  margin-top: 0px !important;
+}
