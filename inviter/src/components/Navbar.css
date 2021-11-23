@@ -1,0 +1,9 @@
+.sign-up-button {
+    border: none;
+    border-radius: 10px;
+    padding: 5px 20px;
+}
+
+.navigation {
+    border: 1px solid black;
+}
