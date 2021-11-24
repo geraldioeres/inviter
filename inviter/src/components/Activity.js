@@ -7,7 +7,6 @@ import { AiFillHeart } from "react-icons/ai";
 import {
   BsFillShareFill,
   BsFillPeopleFill,
-  BsPersonSquare,
 } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import { GrFlag } from "react-icons/gr";
@@ -18,7 +17,7 @@ function Activity() {
       <h3>Hey! They are looking for you now</h3>
       <Container style={{ paddingTop: "50px", paddingBottom: "50px" }}>
         <Row>
-          <Col className="variant1">
+          <Col xs={5} className="variant1">
             <div className="card" style={{ borderRadius: "10px" }}>
               <div className="card-title">
                 <h4 className="title">Activity title</h4>
@@ -26,10 +25,9 @@ function Activity() {
               <div className="card-image">
                 <img className="activity-image" src={Img1} alt="activity-img" />
                 <div class="top-left">
-                  <HiLocationMarker /> location
+                  <HiLocationMarker /> city
                 </div>
                 <div class="bottom-left">
-                  {/* <BsPersonSquare size={55} className="host-profile" /> */}
                   <img className="host-image" src={Profile} alt="host-img" />
                   <h6 className="host-tag">host</h6>
                   <p className="host-name">username</p>
@@ -60,7 +58,7 @@ function Activity() {
               </div>
             </div>
           </Col>
-          <Col>
+          <Col xs={5} className="variant1">
             <div className="card" style={{ borderRadius: "10px" }}>
               <div className="card-image">
                 <h3>This will be image</h3>
@@ -84,7 +82,7 @@ function Activity() {
               </div>
             </div>
           </Col>
-          <Col>
+          <Col xs={5} className="variant1">
             <div className="card" style={{ borderRadius: "10px" }}>
               <div className="card-image">
                 <h3>This will be image</h3>
@@ -108,7 +106,7 @@ function Activity() {
               </div>
             </div>
           </Col>
-          <Col>
+          <Col xs={5} className="variant1">
             <div className="card" style={{ borderRadius: "10px" }}>
               <div className="card-image">
                 <h3>This will be image</h3>

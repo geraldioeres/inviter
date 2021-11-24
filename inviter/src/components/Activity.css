@@ -1,6 +1,9 @@
 .card-title,
 .title {
-  margin-bottom: 2px !important;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  text-align: center;
 }
 
 .card-image {
@@ -31,13 +34,14 @@
   position: absolute;
   color: white;
   font-size: 14px;
-  bottom: -35px;
-  right: 16px;
+  bottom: -36px;
+  right: 11px;
 }
 
 .activity-image {
   width: 246px;
   height: 180px;
+  /* border-radius: 10px 10px 10px 0px; */
 }
 
 /* Start Variant 1 */
@@ -52,7 +56,7 @@
   float: left;
   background: white;
   padding: 5px;
-  border-radius: 20px;
+  border-radius: 20px ;
 }
 
 .host-profile {
