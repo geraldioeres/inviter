@@ -44,9 +44,11 @@
   /* border-radius: 10px 10px 10px 0px; */
 }
 
-/* Start Variant 1 */
+/* Start Variant 2 */
 .variant1{
   width: 272px !important;
+  margin-left: 11px;
+  margin-top: 30px !important;
 }
 
 .host-image {
@@ -97,4 +99,14 @@
   font-size: 16px;
   background: purple;
 }
-/* End Version 1 */
+
+.date-icon, .time-icon{
+  margin-right: 5px;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+}
+/* End Version 2 */
