@@ -1,17 +1,20 @@
 import React from "react";
+import Select from "react-select";
 
 function Create() {
+  const options = [
+    { value: "sports", label: "Sports" },
+    { value: "cooking", label: "Cooking" },
+    { value: "gaming", label: "Gaming" },
+  ];
+
   return (
     <div className="create">
       <h1>Create new activity</h1>
       <form>
         <div className="input-group">
           <label>
-            <select className="input-form" name="category" id="category" >
-              <option value="" disabled selected>Choose activity category...</option>
-              <option value="sports">Sports</option>
-              <option value="cooking">Cooking</option>
-            </select>
+            <Select options={options} className="input-form" name="category" id="category" placeholder="Choose category..."/>
           </label>
         </div>
         <div className="input-group">
@@ -59,6 +62,13 @@ function Create() {
         </div>
         <input type="submit" value="create" />
       </form>
+      {/* Button to change page delete later*/}
+      <a href="/">
+          <button type="button" style={{background:"yellow"}}>
+              Home
+          </button>
+      </a>
+      {/* Button to change page delete later*/}
     </div>
   );
 }

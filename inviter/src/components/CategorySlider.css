@@ -3,6 +3,11 @@
   padding: 50px;
 }
 
+.slick-prev:before,
+.slick-next:before {
+  color: black !important;
+}
+
 .slider-item {
   padding: 5px 20px;
 }

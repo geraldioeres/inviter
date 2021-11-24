@@ -4,10 +4,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import Img1 from "../assests/images/img1.jpg";
 import Profile from "../assests/images/profile2.jpg";
 import { AiFillHeart } from "react-icons/ai";
-import {
-  BsFillShareFill,
-  BsFillPeopleFill,
-} from "react-icons/bs";
+import { BsFillShareFill, BsFillPeopleFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import { GrFlag } from "react-icons/gr";
 
@@ -24,15 +21,15 @@ function Activity() {
               </div>
               <div className="card-image">
                 <img className="activity-image" src={Img1} alt="activity-img" />
-                <div class="top-left">
+                <div className="top-left">
                   <HiLocationMarker /> city
                 </div>
-                <div class="bottom-left">
+                <div className="bottom-left">
                   <img className="host-image" src={Profile} alt="host-img" />
                   <h6 className="host-tag">host</h6>
                   <p className="host-name">username</p>
                 </div>
-                <div class="bottom-right">
+                <div className="bottom-right">
                   <div className="people">
                     <BsFillPeopleFill /> 0 / 6
                   </div>

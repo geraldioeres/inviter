@@ -1,8 +1,20 @@
 import React from "react";
 import Slider from "react-slick";
 import "./CategorySlider.css";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_CATEGORIES = gql`
+  query MyQuery {
+    project_fe_categories {
+      id
+      name
+    }
+  }
+`;
 
 function CategorySlide() {
+  const { data } = useQuery(GET_CATEGORIES);
+
   var settings = {
     dots: true,
     infinite: true,
@@ -42,46 +54,13 @@ function CategorySlide() {
       <h2>Categories</h2>
       <div>
         <Slider {...settings}>
-          <div>
-            <a href="/1">
-              <button className="slider-item">1</button>
-            </a>
-          </div>
-          <div>
-            <a href="/2">
-              <button className="slider-item">2</button>
-            </a>
-          </div>
-          <div>
-            <a href="/3">
-              <button className="slider-item">3</button>
-            </a>
-          </div>
-          <div>
-            <a href="/4">
-              <button className="slider-item">4</button>
-            </a>
-          </div>
-          <div>
-            <a href="/5">
-              <button className="slider-item">5</button>
-            </a>
-          </div>
-          <div>
-            <a href="/6">
-              <button className="slider-item">6</button>
-            </a>
-          </div>
-          <div>
-            <a href="/7">
-              <button className="slider-item">7</button>
-            </a>
-          </div>
-          <div>
-            <a href="/8">
-              <button className="slider-item">8</button>
-            </a>
-          </div>
+          {data?.project_fe_categories?.map((v) => (
+            <div>
+              <a href={v.name}>
+                <button className="slider-item">{v.name}</button>
+              </a>
+            </div>
+          ))}
         </Slider>
       </div>
     </div>
