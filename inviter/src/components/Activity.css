@@ -5,17 +5,25 @@
 
 .card-image {
   position: relative;
-  padding: 10px 5px 0px 5px;
+}
+
+.top-left {
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 5px;
+  left: 9px;
+  background: rgba(58, 58, 58, 0.555);
+  padding: 3px 8px;
+  border-radius: 10px;
 }
 
 .bottom-left {
   position: absolute;
-  color: white;
   font-size: 14px;
-  bottom: 8px;
-  left: 16px;
-  background: rgba(58, 58, 58, 0.555);
-  padding: 3px 8px;
+  bottom: -52px;
+  left: 6px;
+  width: 120px;
   border-radius: 10px;
 }
 
@@ -23,40 +31,66 @@
   position: absolute;
   color: white;
   font-size: 14px;
-  bottom: 8px;
+  bottom: -35px;
   right: 16px;
-  background: rgba(58, 58, 58, 0.555);
-  padding: 3px 8px;
-  border-radius: 10px;
 }
 
 .activity-image {
-  border-radius: 10px;
   width: 246px;
   height: 180px;
 }
 
-.host-data {
-  text-align: left;
+/* Start Variant 1 */
+.variant1{
+  width: 272px !important;
 }
 
-.profile {
+.host-image {
+  width: 50px !important;
+  height: 50px !important;
+  padding-top: 5px;
   float: left;
-  margin: 8px 5px 0px 8px;
+  background: white;
+  padding: 5px;
+  border-radius: 20px;
 }
 
-.host,
-.username {
-  margin-left: 15px;
-  display: block;
-  margin: 2px 0 0 0;
+.host-profile {
+  padding-top: 5px;
+  float: left;
+  background: white;
+  padding: 10px;
+  border-radius: 10px;
 }
 
-.host {
-  padding-top: 1px;
+.host-tag,
+.host-name {
+  text-align: left;
+  margin-left: 30px;
+}
+
+.host-tag {
+  padding-top: 17px;
   margin-bottom: 0px;
 }
 
-.username {
-  margin-top: 0px !important;
+.host-name {
+  margin-top: -6px !important;
 }
+
+.people {
+  background: rgba(58, 58, 58, 0.555);
+  padding: 3px 8px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.details-button {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 16px;
+  background: purple;
+}
+/* End Version 1 */
