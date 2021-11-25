@@ -1,12 +1,25 @@
 import React from "react";
 import Select from "react-select";
+import { gql, useQuery } from "@apollo/client";
+
+const GET_CATEGORIES = gql`
+  query MyQuery {
+    project_fe_categories {
+      id
+      name
+    }
+  }
+`;
 
 function Create() {
-  const options = [
-    { value: "sports", label: "Sports" },
-    { value: "cooking", label: "Cooking" },
-    { value: "gaming", label: "Gaming" },
-  ];
+  const { data } = useQuery(GET_CATEGORIES);
+
+  const options = data?.project_fe_categories?.map((obj) => {
+    let newData = {};
+    newData["value"] = obj.id;
+    newData["label"] = obj.name;
+    return newData;
+  });
 
   return (
     <div className="create">
@@ -14,7 +27,13 @@ function Create() {
       <form>
         <div className="input-group">
           <label>
-            <Select options={options} className="input-form" name="category" id="category" placeholder="Choose category..."/>
+            <Select
+              options={options}
+              className="input-form"
+              name="category"
+              id="category"
+              placeholder="Choose category..."
+            />
           </label>
         </div>
         <div className="input-group">
@@ -64,9 +83,9 @@ function Create() {
       </form>
       {/* Button to change page delete later*/}
       <a href="/">
-          <button type="button" style={{background:"yellow"}}>
-              Home
-          </button>
+        <button type="button" style={{ background: "yellow" }}>
+          Home
+        </button>
       </a>
       {/* Button to change page delete later*/}
     </div>
