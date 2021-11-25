@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import React from "react";
 import { useParams } from "react-router";
@@ -30,10 +30,29 @@ const GET_ACTIVITY = gql`
   }
 `;
 
+const DELETE_ACTIVITY = gql`
+  mutation MyMutation($id: Int!) {
+    delete_project_fe_activities_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
 function Details() {
   const { id } = useParams();
   const { data } = useQuery(GET_ACTIVITY, { variables: { id: id } });
-  console.log(data?.project_fe_activities_by_pk);
+  const [deleteActivity, { data: deleteData }] = useMutation(DELETE_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITY],
+  });
+
+  const handleDelete = () => {
+    deleteActivity({
+      variables: {
+        id: id,
+      },
+    });
+  };
+
   const dataDetails = data?.project_fe_activities_by_pk;
 
   return (
@@ -59,7 +78,11 @@ function Details() {
         Join Activity
       </button>
       {/* Temporary Button Delete Later */}
-      <button type="button" style={{ background: "red" }}>
+      <button
+        type="button"
+        style={{ background: "red" }}
+        onClick={handleDelete}
+      >
         Delete
       </button>
       <a href="/">

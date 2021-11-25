@@ -56,7 +56,7 @@ function Activity() {
         <Col xs={1}>
           <span
             className="filter"
-            onClick={() => setFilter({ created_at: "asc" })}
+            onClick={() => setFilter({ created_at: "desc" })}
           >
             Recent
           </span>

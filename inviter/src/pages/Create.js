@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 const GET_CATEGORIES = gql`
@@ -20,10 +21,19 @@ const GET_CITIES = gql`
   }
 `;
 
+// const INSERT_ACTIVITY = gql`
+//   mutation MyMutation($objects: [project_fe_activities_insert_input!] = {}) {
+//     insert_project_fe_activities(objects: $objects) {
+//       returning {
+//         id
+//       }
+//     }
+//   }
+// `;
 const INSERT_ACTIVITY = gql`
-  mutation MyMutation($objects: [project_fe_activities_insert_input!] = {}) {
-    insert_project_fe_activities(objects: $objects) {
-      affected_rows
+  mutation MyMutation($object: project_fe_activities_insert_input = {}) {
+    insert_project_fe_activities_one(object: $object) {
+      id
     }
   }
 `;
@@ -31,7 +41,8 @@ const INSERT_ACTIVITY = gql`
 function Create() {
   const { data } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
-  const [insertActivity, { data: insertData }] = useMutation(INSERT_ACTIVITY);
+  const [insertActivity, { data: insertData, loading: insertLoading }] =
+    useMutation(INSERT_ACTIVITY);
   const [cat, setCat] = useState();
   const [city, setCity] = useState();
   const [state, setstate] = useState({});
@@ -65,22 +76,34 @@ function Create() {
     setCity(e.value);
   };
 
+  let navigate = useNavigate();
+
+  function handleClick() {
+    navigate(`/activity/${insertData?.insert_project_fe_activities_one?.id}`);
+  }
+
   const handleSubmit = (e) => {
+    e.preventDefault();
     insertActivity({
       variables: {
-        objects: {
-          user_id: 1,
-          category_id: cat,
+        object: {
+          user_id: 2,
           title: state.title,
           description: state.description,
           date: state.date,
           time: state.time,
           number_of_people: state.people,
+          category_id: cat,
           city_id: city,
         },
       },
     });
   };
+
+  console.log(insertData?.insert_project_fe_activities_one?.id)
+  if (insertData !== undefined) {
+    handleClick()
+  }
 
   return (
     <div className="create">
