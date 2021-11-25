@@ -11,15 +11,32 @@ const GET_CATEGORIES = gql`
   }
 `;
 
+const GET_CITIES = gql`
+  query MyQuery {
+    project_fe_citites {
+      id
+      name
+    }
+  }
+`;
+
 function Create() {
   const { data } = useQuery(GET_CATEGORIES);
+  const { data: cityData } = useQuery(GET_CITIES);
 
-  const options = data?.project_fe_categories?.map((obj) => {
+  const optionsCat = data?.project_fe_categories?.map((obj) => {
     let newData = {};
     newData["value"] = obj.id;
     newData["label"] = obj.name;
     return newData;
   });
+
+  const optionsCity = cityData?.project_fe_citites?.map((obj) => {
+    let newCity = {};
+    newCity["value"] = obj.id;
+    newCity["label"] = obj.name;
+    return newCity;
+  })
 
   return (
     <div className="create">
@@ -28,7 +45,7 @@ function Create() {
         <div className="input-group">
           <label>
             <Select
-              options={options}
+              options={optionsCat}
               className="input-form"
               name="category"
               id="category"
@@ -58,6 +75,17 @@ function Create() {
               id="description"
               maxLength="5"
               placeholder="Type Description..."
+            />
+          </label>
+        </div>
+        <div className="input-group">
+          <label>
+            <Select
+              options={optionsCity}
+              className="input-form"
+              name="city"
+              id="city"
+              placeholder="Choose city..."
             />
           </label>
         </div>

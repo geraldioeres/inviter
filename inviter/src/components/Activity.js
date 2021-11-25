@@ -12,24 +12,26 @@ import { GrFlag } from "react-icons/gr";
 import { gql, useQuery } from "@apollo/client";
 
 const GET_ACTIVITIES = gql`
-  query MyQuery {
-    project_fe_activities {
-      id
-      title
-      user_id
-      like
-      number_of_people
-      description
-      date
-      current_people
-      city
-      time
-      category_id
-      user {
-        full_name
-      }
+query MyQuery {
+  project_fe_activities {
+    id
+    title
+    user_id
+    like
+    number_of_people
+    description
+    date
+    current_people
+    time
+    category_id
+    user {
+      full_name
+    }
+    city {
+      name
     }
   }
+}
 `;
 
 function Activity() {
@@ -52,7 +54,7 @@ function Activity() {
                     alt="activity-img"
                   />
                   <div className="top-left">
-                    <HiLocationMarker /> {val.city}
+                    <HiLocationMarker /> {val.city.name}
                   </div>
                   <div className="bottom-left">
                     <img className="host-image" src={Profile} alt="host-img" />
