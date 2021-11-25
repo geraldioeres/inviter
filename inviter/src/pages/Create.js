@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from "react-select";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const GET_CATEGORIES = gql`
   query MyQuery {
@@ -20,9 +20,21 @@ const GET_CITIES = gql`
   }
 `;
 
+const INSERT_ACTIVITY = gql`
+  mutation MyMutation($objects: [project_fe_activities_insert_input!] = {}) {
+    insert_project_fe_activities(objects: $objects) {
+      affected_rows
+    }
+  }
+`;
+
 function Create() {
   const { data } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
+  const [insertActivity, { data: insertData }] = useMutation(INSERT_ACTIVITY);
+  const [cat, setCat] = useState();
+  const [city, setCity] = useState();
+  const [state, setstate] = useState({});
 
   const optionsCat = data?.project_fe_categories?.map((obj) => {
     let newData = {};
@@ -36,12 +48,44 @@ function Create() {
     newCity["value"] = obj.id;
     newCity["label"] = obj.name;
     return newCity;
-  })
+  });
+
+  const onChange = (e) => {
+    setstate({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onChangeCat = (e) => {
+    setCat(e.value);
+  };
+
+  const onChangeCity = (e) => {
+    setCity(e.value);
+  };
+
+  const handleSubmit = (e) => {
+    insertActivity({
+      variables: {
+        objects: {
+          user_id: 1,
+          category_id: cat,
+          title: state.title,
+          description: state.description,
+          date: state.date,
+          time: state.time,
+          number_of_people: state.people,
+          city_id: city,
+        },
+      },
+    });
+  };
 
   return (
     <div className="create">
       <h1>Create new activity</h1>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="input-group">
           <label>
             <Select
@@ -50,6 +94,7 @@ function Create() {
               name="category"
               id="category"
               placeholder="Choose category..."
+              onChange={onChangeCat}
             />
           </label>
         </div>
@@ -63,6 +108,7 @@ function Create() {
               id="title"
               maxLength="60"
               placeholder="Type Title..."
+              onChange={onChange}
             />
           </label>
         </div>
@@ -73,8 +119,9 @@ function Create() {
               className="input-form"
               name="description"
               id="description"
-              maxLength="5"
+              maxLength="255"
               placeholder="Type Description..."
+              onChange={onChange}
             />
           </label>
         </div>
@@ -86,28 +133,41 @@ function Create() {
               name="city"
               id="city"
               placeholder="Choose city..."
+              onChange={onChangeCity}
             />
           </label>
         </div>
         <div className="input-group">
           <label>
             Select Date
-            <input type="date" name="date" id="date" />
+            <input type="date" name="date" id="date" onChange={onChange} />
           </label>
         </div>
         <div className="input-group">
           <label>
             Select Time
-            <input type="time" name="time" id="time" min="04:00" max="23:00" />
+            <input
+              type="time"
+              name="time"
+              id="time"
+              min="04:00"
+              max="23:00"
+              onChange={onChange}
+            />
           </label>
         </div>
         <div className="input-group">
           <label>
             Number of People
-            <input type="number" name="people" id="people" />
+            <input
+              type="number"
+              name="people"
+              id="people"
+              onChange={onChange}
+            />
           </label>
         </div>
-        <input type="submit" value="create" />
+        <button onClick={handleSubmit}>Submit</button>
       </form>
       {/* Button to change page delete later*/}
       <a href="/">

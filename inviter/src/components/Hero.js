@@ -11,7 +11,6 @@ function Hero() {
             <input
               type="text"
               className="search-input-form"
-              value=""
               placeholder="Search by activity"
             />
           </div>
@@ -22,7 +21,6 @@ function Hero() {
             <input
               type="text"
               className="search-input-form"
-              value=""
               placeholder="Search by city"
             />
           </div>
@@ -33,7 +31,6 @@ function Hero() {
             <input
               type="date"
               className="search-input-form"
-              value=""
               placeholder="Search by date"
             />
           </div>

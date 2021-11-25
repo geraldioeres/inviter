@@ -55,7 +55,7 @@ function CategorySlide() {
       <div>
         <Slider {...settings}>
           {data?.project_fe_categories?.map((v) => (
-            <div>
+            <div key={v.id}>
               <a href={v.name}>
                 <button className="slider-item">{v.name}</button>
               </a>

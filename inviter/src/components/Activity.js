@@ -42,7 +42,7 @@ function Activity() {
       <Container style={{ paddingTop: "10px", paddingBottom: "50px" }}>
         <Row>
           {data?.project_fe_activities?.map((val) => (
-            <Col xs={5} className="variant1">
+            <Col xs={5} className="variant1" key={val.id}>
               <div className="card" style={{ borderRadius: "10px" }}>
                 <div className="card-title">
                   <h4 className="title">{val.title}</h4>
