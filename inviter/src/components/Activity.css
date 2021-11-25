@@ -100,6 +100,11 @@
   background: purple;
 }
 
+.details-link {
+  color: white;
+  text-decoration: none;
+}
+
 .date-icon, .time-icon{
   margin-right: 5px;
 }

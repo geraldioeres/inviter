@@ -10,6 +10,7 @@ import { BsFillCalendar2WeekFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { GrFlag } from "react-icons/gr";
 import { gql, useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 
 const GET_ACTIVITIES = gql`
   query MyQuery($order_by: [project_fe_activities_order_by!] = {}) {
@@ -93,7 +94,12 @@ function Activity() {
                       <BsFillPeopleFill /> {val.current_people} /{" "}
                       {val.number_of_people}
                     </div>
-                    <button className="details-button">Details</button>
+                    <Link
+                      to={`activity/${val.id}`}
+                      className="details-link"
+                    >
+                      <button className="details-button">Details</button>
+                    </Link>
                   </div>
                 </div>
                 <div className="card-stats">
