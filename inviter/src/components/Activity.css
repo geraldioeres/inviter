@@ -109,4 +109,8 @@
   align-items: center;
   padding-left: 15px;
 }
+
+.filter {
+  cursor: pointer;
+}
 /* End Version 2 */

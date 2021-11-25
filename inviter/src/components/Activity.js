@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Activity.css";
 import { Col, Container, Row } from "react-bootstrap";
 import Img1 from "../assests/images/img1.jpg";
@@ -12,33 +12,60 @@ import { GrFlag } from "react-icons/gr";
 import { gql, useQuery } from "@apollo/client";
 
 const GET_ACTIVITIES = gql`
-query MyQuery {
-  project_fe_activities {
-    id
-    title
-    user_id
-    like
-    number_of_people
-    description
-    date
-    current_people
-    time
-    category_id
-    user {
-      full_name
-    }
-    city {
-      name
+  query MyQuery($order_by: [project_fe_activities_order_by!] = {}) {
+    project_fe_activities(order_by: $order_by) {
+      id
+      title
+      user_id
+      like
+      number_of_people
+      description
+      date
+      current_people
+      time
+      category_id
+      user {
+        full_name
+      }
+      city {
+        name
+      }
     }
   }
-}
 `;
 
 function Activity() {
-  const { data } = useQuery(GET_ACTIVITIES);
+  const [filter, setFilter] = useState({});
+
+  const { data } = useQuery(GET_ACTIVITIES, {
+    variables: {
+      order_by: filter,
+    },
+  });
+
   return (
     <div>
       <h3>Hey! They are looking for you now</h3>
+      <Row>
+        <Col xs={1} style={{ marginLeft: "105px" }}>
+          <span className="filter" onClick={() => setFilter({})}>
+            All
+          </span>
+        </Col>
+        <Col xs={1}>
+          <span
+            className="filter"
+            onClick={() => setFilter({ created_at: "asc" })}
+          >
+            Recent
+          </span>
+        </Col>
+        <Col xs={1}>
+          <span className="filter" onClick={() => setFilter({ like: "desc" })}>
+            Popular
+          </span>
+        </Col>
+      </Row>
       <Container style={{ paddingTop: "10px", paddingBottom: "50px" }}>
         <Row>
           {data?.project_fe_activities?.map((val) => (
@@ -70,23 +97,26 @@ function Activity() {
                   </div>
                 </div>
                 <div className="card-stats">
-                <Row style={{ paddingTop: "50px" }}>
+                  <Row style={{ paddingTop: "50px" }}>
                     <Col className="stats-col">
                       <div className="centered">
-                        <BsFillCalendar2WeekFill size={16} className="date-icon"/> 
+                        <BsFillCalendar2WeekFill
+                          size={16}
+                          className="date-icon"
+                        />
                         <span>{val.date}</span>
                       </div>
                     </Col>
                     <Col className="stats-col" xs={5}>
                       <div className="centered">
-                        <BiTimeFive size={16} className="time-icon"/> 
-                        <span>{val.time.slice(0,5)}</span>
+                        <BiTimeFive size={16} className="time-icon" />
+                        <span>{val.time.slice(0, 5)}</span>
                       </div>
                     </Col>
                   </Row>
                   <Row style={{ paddingTop: "12px" }}>
                     <Col className="stats-col">
-                      <AiFillHeart size={22} color="deeppink"/>
+                      <AiFillHeart size={22} color="deeppink" />
                       <p className="stats-text">{val.like}</p>
                     </Col>
                     <Col className="stats-col">
