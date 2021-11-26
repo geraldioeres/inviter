@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Activity.css";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import Img1 from "../assests/images/img1.jpg";
 import Profile from "../assests/images/profile2.jpg";
 import { AiFillHeart } from "react-icons/ai";
@@ -94,10 +94,7 @@ function Activity() {
                       <BsFillPeopleFill /> {val.current_people} /{" "}
                       {val.number_of_people}
                     </div>
-                    <Link
-                      to={`activity/${val.id}`}
-                      className="details-link"
-                    >
+                    <Link to={`activity/${val.id}`} className="details-link">
                       <button className="details-button">Details</button>
                     </Link>
                   </div>

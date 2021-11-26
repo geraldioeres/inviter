@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { useParams } from "react-router";
-import { gql, useQuery } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 const GET_CURRENT_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -35,6 +36,14 @@ const GET_CITIES = gql`
   }
 `;
 
+const EDIT_DATA = gql`
+  mutation MyMutation($id: Int!, $_set: project_fe_activities_set_input = {}) {
+    update_project_fe_activities_by_pk(pk_columns: { id: $id }, _set: $_set) {
+      id
+    }
+  }
+`;
+
 function Edit() {
   const { id } = useParams();
   const { data, loading } = useQuery(GET_CURRENT_ACTIVITY, {
@@ -42,6 +51,8 @@ function Edit() {
   });
   const { data: catData } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
+  const [updateData, { data: editData, loading: loadingEdit }] =
+    useMutation(EDIT_DATA);
 
   const [state, setstate] = useState();
   const [cat, setCat] = useState();
@@ -89,18 +100,41 @@ function Edit() {
     setCity(e.value);
   };
 
+  const handleUpdate = (e) => {
+    e.preventDefault();
+    updateData({
+      variables: {
+        id: id,
+        _set: {
+          category_id: cat,
+          title: state.title,
+          description: state.description,
+          city_id: city,
+          date: state.date,
+          time: state.time,
+          number_of_people: state.number_of_people,
+        },
+      },
+    });
+  };
+
+  let navigate = useNavigate();
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div>
       <h1>Edit page</h1>
       {loading ? (
         <h1>Loading data...</h1>
       ) : state && catData && cityData ? (
-        <>
+        <form onSubmit={handleUpdate}>
           <div className="edit-group">
             <label>
               <Select
                 // defaultValue={{label: state?.category.id, value: state?.category.name}}
-                defaultValue={optionsCat[state?.category_id]}
+                defaultValue={optionsCat[state?.category_id - 1]}
                 options={optionsCat}
                 className="edit-form"
                 name="category"
@@ -183,14 +217,15 @@ function Edit() {
               Number of People
               <input
                 type="number"
-                name="people"
-                id="people"
+                name="number_of_people"
+                id="number_of_people"
                 value={state?.number_of_people || ""}
                 onChange={onChange}
               />
             </label>
           </div>
-        </>
+          <button onClick={handleUpdate}>Submit</button>
+        </form>
       ) : (
         <h1>Loading data...</h1>
       )}
@@ -199,6 +234,20 @@ function Edit() {
           Home
         </button>
       </a>
+      <button
+        type="button"
+        onClick={goBack}
+        style={{ background: "blue", color: "white" }}
+      >
+        Back
+      </button>
+      {loadingEdit ? (
+        <h1>Updating activity data</h1>
+      ) : editData !== undefined ? (
+        <h1>Successfully update activity</h1>
+      ) : (
+        ""
+      )}
     </div>
   );
 }
