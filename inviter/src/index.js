@@ -23,6 +23,7 @@ const wsLink = new WebSocketLink({
   uri: "wss://present-pelican-78.hasura.app/v1/graphql",
   options: {
     reconnect: true,
+    lazy: true,
     connectionParams: {
       headers: {
         "x-hasura-admin-secret":
