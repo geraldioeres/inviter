@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import React from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 
 const GET_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -78,9 +79,17 @@ function Details() {
         Join Activity
       </button>
       {/* Temporary Button Delete Later */}
+      <Link to={'edit'} className="details-link">
+        <button
+          type="button"
+          style={{ background: "purple", color: "white" }}
+        >
+          Edit
+        </button>
+      </Link>
       <button
         type="button"
-        style={{ background: "red" }}
+        style={{ background: "red", color: "white" }}
         onClick={handleDelete}
       >
         Delete
