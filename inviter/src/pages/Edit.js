@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import storage from "../firebase/firebase-config";
+import { storage } from "../firebase/firebase-config";
 
 const GET_CURRENT_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -244,7 +244,7 @@ function Edit() {
                 className="edit-form"
                 name="title"
                 id="title"
-                maxLength="60"
+                maxLength="53"
                 placeholder="Type Title..."
                 value={state?.title || ""}
                 onChange={onChange}

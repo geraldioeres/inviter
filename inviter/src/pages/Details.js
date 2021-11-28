@@ -3,6 +3,8 @@ import gql from "graphql-tag";
 import React from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import { getAuth } from "firebase/auth";
+import "./Details.css";
 
 const GET_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -23,7 +25,7 @@ const GET_ACTIVITY = gql`
       current_people
       number_of_people
       user {
-        id
+        uid
         full_name
       }
       like
@@ -41,8 +43,11 @@ const DELETE_ACTIVITY = gql`
 `;
 
 function Details() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const { id } = useParams();
-  const { data } = useQuery(GET_ACTIVITY, { variables: { id: id } });
+  const { data, loading } = useQuery(GET_ACTIVITY, { variables: { id: id } });
   const [deleteActivity, { data: dataDelete, loading: loadingDelete }] =
     useMutation(DELETE_ACTIVITY, {
       refetchQueries: [GET_ACTIVITY],
@@ -57,8 +62,6 @@ function Details() {
     });
   };
 
-  console.log(dataDelete);
-
   const dataDetails = data?.project_fe_activities_by_pk;
 
   return (
@@ -67,10 +70,16 @@ function Details() {
         <h1>Deleting data...</h1>
       ) : dataDelete ? (
         <h1>Data Not Found or Has Been Deleted</h1>
+      ) : loading ? (
+        <h1>Loading data...</h1>
       ) : (
         <>
           <h1 className="title-detail">{dataDetails?.title}</h1>
-          <img src={dataDetails?.image_url} alt="activity" />
+          <img
+            src={dataDetails?.image_url}
+            alt="activity"
+            className="image-detail"
+          />
           <div className="host-detail">
             <h5>Hosted By</h5>
             <h4>{dataDetails?.user.full_name}</h4>
@@ -87,33 +96,36 @@ function Details() {
           <div className="date-detail">{dataDetails?.date}</div>
           <div className="time-detail">{dataDetails?.time.slice(0, 5)}</div>
           <div className="description-detail">{dataDetails?.description}</div>
-          <button type="button" className="join-button">
-            Join Activity
-          </button>
-          {/* Temporary Button Delete Later */}
-          <Link to={"edit"} className="details-link">
-            <button
-              type="button"
-              style={{ background: "purple", color: "white" }}
-            >
-              Edit
+          {user?.uid == dataDetails?.user.uid ? (
+            <>
+              <Link to={"edit"} className="details-link">
+                <button
+                  type="button"
+                  style={{ background: "purple", color: "white" }}
+                >
+                  Edit
+                </button>
+              </Link>
+              <button
+                type="button"
+                style={{ background: "red", color: "white" }}
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </>
+          ) : (
+            <button type="button" className="join-button">
+              Join Activity
             </button>
-          </Link>
-          <button
-            type="button"
-            style={{ background: "red", color: "white" }}
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
+          )}
+          <a href="/">
+            <button type="button" style={{ background: "yellow" }}>
+              Home
+            </button>
+          </a>
         </>
       )}
-      <a href="/">
-        <button type="button" style={{ background: "yellow" }}>
-          Home
-        </button>
-      </a>
-      {/* Temporary Button Delete Later */}
     </div>
   );
 }

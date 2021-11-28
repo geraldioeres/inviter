@@ -89,6 +89,9 @@
 
 .host-name {
   margin-top: -6px !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .people {
@@ -104,6 +107,10 @@
   border-radius: 10px;
   color: white;
   font-size: 16px;
+  background: rgba(128, 0, 128, 0.726);
+}
+
+.details-button:hover {
   background: purple;
 }
 

@@ -3,7 +3,8 @@ import Select from "react-select";
 import { Navigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import storage from "../firebase/firebase-config";
+import { storage } from "../firebase/firebase-config";
+import { getAuth } from "firebase/auth";
 
 const GET_CATEGORIES = gql`
   query MyQuery {
@@ -32,6 +33,9 @@ const INSERT_ACTIVITY = gql`
 `;
 
 function Create() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const { data } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
   const [insertActivity, { data: insertData, loading: insertLoading }] =
@@ -118,7 +122,7 @@ function Create() {
           insertActivity({
             variables: {
               object: {
-                user_id: 2,
+                user_uid: user?.uid,
                 image_url: downloadURL,
                 title: state.title,
                 description: state.description,
@@ -176,7 +180,7 @@ function Create() {
               className="input-form"
               name="title"
               id="title"
-              maxLength="60"
+              maxLength="53"
               placeholder="Type Title..."
               onChange={onChange}
             />

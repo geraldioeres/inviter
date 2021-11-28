@@ -17,7 +17,7 @@ const GET_ACTIVITIES = gql`
     project_fe_activities(order_by: $order_by) {
       id
       title
-      user_id
+      user_uid
       like
       number_of_people
       description

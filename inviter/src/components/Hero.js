@@ -39,11 +39,6 @@ function Hero() {
           Search
         </button>
       </form>
-      {/* Button to change page delete later*/}
-      <a href="/create">
-        <button type="button" style={{background:"yellow"}}>Create</button>
-      </a>
-      {/* Button to change page delete later*/}
     </div>
   );
 }
