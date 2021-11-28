@@ -3,6 +3,8 @@ import Select from "react-select";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import storage from "../firebase/firebase-config";
 
 const GET_CURRENT_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -51,12 +53,16 @@ function Edit() {
   });
   const { data: catData } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
-  const [updateData, { data: editData, loading: loadingEdit }] =
-    useMutation(EDIT_DATA);
+  const [updateData, { data: editData, loading: loadingEdit }] = useMutation(
+    EDIT_DATA,
+    { notifyOnNetworkStatusChange: true }
+  );
 
   const [state, setstate] = useState();
   const [cat, setCat] = useState();
   const [city, setCity] = useState();
+  const [image, setImage] = useState();
+  const [uploading, setUploading] = useState(false);
 
   //Start Options Area
   const optionsCat = catData?.project_fe_categories?.map((obj) => {
@@ -82,9 +88,6 @@ function Edit() {
     }
   }, [data?.project_fe_activities_by_pk]);
 
-  console.log(state);
-  console.log(cat, city);
-
   const onChange = (e) => {
     setstate({
       ...state,
@@ -102,21 +105,101 @@ function Edit() {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    updateData({
-      variables: {
-        id: id,
-        _set: {
-          category_id: cat,
-          title: state.title,
-          description: state.description,
-          city_id: city,
-          date: state.date,
-          time: state.time,
-          number_of_people: state.number_of_people,
+    if (image === undefined) {
+      updateData({
+        variables: {
+          id: id,
+          _set: {
+            category_id: cat,
+            title: state.title,
+            description: state.description,
+            city_id: city,
+            date: state.date,
+            time: state.time,
+            number_of_people: state.number_of_people,
+          },
         },
-      },
-    });
+      });
+    } else {
+      const storageRef = ref(storage, `/images/${image?.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, image);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              setUploading(true);
+              break;
+          }
+        },
+        (error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case "storage/unauthorized":
+              // User doesn't have permission to access the object
+              break;
+            case "storage/canceled":
+              // User canceled the upload
+              break;
+
+            // ...
+
+            case "storage/unknown":
+              // Unknown error occurred, inspect error.serverResponse
+              break;
+          }
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log("File available at", downloadURL);
+            setUploading(false);
+            updateData({
+              variables: {
+                id: id,
+                _set: {
+                  category_id: cat,
+                  image_url: downloadURL,
+                  title: state.title,
+                  description: state.description,
+                  city_id: city,
+                  date: state.date,
+                  time: state.time,
+                  number_of_people: state.number_of_people,
+                },
+              },
+            });
+          });
+        }
+      );
+    }
   };
+
+  // const handleUpdate = (e) => {
+  //   e.preventDefault();
+  //   updateData({
+  //     variables: {
+  //       id: id,
+  //       _set: {
+  //         category_id: cat,
+  //         title: state.title,
+  //         description: state.description,
+  //         city_id: city,
+  //         date: state.date,
+  //         time: state.time,
+  //         number_of_people: state.number_of_people,
+  //       },
+  //     },
+  //   });
+  // };
 
   let navigate = useNavigate();
   const goBack = () => {
@@ -143,6 +226,15 @@ function Edit() {
                 onChange={onChangeCat}
               />
             </label>
+          </div>
+          <div className="input-group">
+            <input
+              type="file"
+              className="input-form"
+              onChange={(e) => {
+                setImage(e.target.files[0]);
+              }}
+            />
           </div>
           <div className="edit-group">
             <label>
@@ -241,7 +333,7 @@ function Edit() {
       >
         Back
       </button>
-      {loadingEdit ? (
+      {loadingEdit || uploading === true ? (
         <h1>Updating activity data</h1>
       ) : editData !== undefined ? (
         <h1>Successfully update activity</h1>

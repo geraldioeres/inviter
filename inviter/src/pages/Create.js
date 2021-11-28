@@ -40,7 +40,6 @@ function Create() {
   const [city, setCity] = useState();
   const [state, setstate] = useState({});
   const [image, setImage] = useState();
-  const [url, setUrl] = useState();
   const [uploading, setUploading] = useState(false);
 
   const optionsCat = data?.project_fe_categories?.map((obj) => {
@@ -116,7 +115,6 @@ function Create() {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log("File available at", downloadURL);
           setUploading(false);
-          setUrl(downloadURL);
           insertActivity({
             variables: {
               object: {
@@ -135,10 +133,7 @@ function Create() {
         });
       }
     );
-    console.log(url);
   };
-
-  console.log(insertData);
 
   if (insertData !== undefined) {
     return (
