@@ -31,6 +31,7 @@ const GET_ACTIVITIES = gql`
       city {
         name
       }
+      image_url
     }
   }
 `;
@@ -78,7 +79,7 @@ function Activity() {
                 <div className="card-image">
                   <img
                     className="activity-image"
-                    src={Img1}
+                    src={val.image_url}
                     alt="activity-img"
                   />
                   <div className="top-left">

@@ -1,9 +1,16 @@
-.card-title,
+.card-title, .title {
+  margin-bottom: 0px !important;
+}
+
+.card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+}
+
 .title {
-  margin-top: 5px;
-  margin-bottom: 5px;
-  font-size: 20px;
-  text-align: center;
+  font-size: 18px;
 }
 
 .card-image {

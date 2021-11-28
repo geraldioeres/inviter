@@ -27,6 +27,7 @@ const GET_ACTIVITY = gql`
         full_name
       }
       like
+      image_url
     }
   }
 `;
@@ -59,6 +60,7 @@ function Details() {
   return (
     <div>
       <h1 className="title-detail">{dataDetails?.title}</h1>
+      <img src={dataDetails?.image_url} alt="activity"/>
       <div className="host-detail">
         <h5>Hosted By</h5>
         <h4>{dataDetails?.user.full_name}</h4>

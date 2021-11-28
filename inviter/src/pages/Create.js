@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Select from "react-select";
 import { Navigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import storage from "../firebase/firebase-config";
 
 const GET_CATEGORIES = gql`
   query MyQuery {
@@ -32,10 +34,14 @@ const INSERT_ACTIVITY = gql`
 function Create() {
   const { data } = useQuery(GET_CATEGORIES);
   const { data: cityData } = useQuery(GET_CITIES);
-  const [insertActivity, { data: insertData }] = useMutation(INSERT_ACTIVITY);
+  const [insertActivity, { data: insertData, loading: insertLoading }] =
+    useMutation(INSERT_ACTIVITY, { notifyOnNetworkStatusChange: true });
   const [cat, setCat] = useState();
   const [city, setCity] = useState();
   const [state, setstate] = useState({});
+  const [image, setImage] = useState();
+  const [url, setUrl] = useState();
+  const [uploading, setUploading] = useState(false);
 
   const optionsCat = data?.project_fe_categories?.map((obj) => {
     let newData = {};
@@ -67,25 +73,74 @@ function Create() {
   };
 
   const handleSubmit = (e) => {
+    if (image === undefined) return;
+    const storageRef = ref(storage, `/images/${image?.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, image);
     e.preventDefault();
-    insertActivity({
-      variables: {
-        object: {
-          user_id: 2,
-          title: state.title,
-          description: state.description,
-          date: state.date,
-          time: state.time,
-          number_of_people: state.people,
-          category_id: cat,
-          city_id: city,
-        },
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            setUploading(true);
+            break;
+        }
       },
-    });
+      (error) => {
+        // A full list of error codes is available at
+        // https://firebase.google.com/docs/storage/web/handle-errors
+        switch (error.code) {
+          case "storage/unauthorized":
+            // User doesn't have permission to access the object
+            break;
+          case "storage/canceled":
+            // User canceled the upload
+            break;
+
+          // ...
+
+          case "storage/unknown":
+            // Unknown error occurred, inspect error.serverResponse
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log("File available at", downloadURL);
+          setUploading(false);
+          setUrl(downloadURL);
+          insertActivity({
+            variables: {
+              object: {
+                user_id: 2,
+                image_url: downloadURL,
+                title: state.title,
+                description: state.description,
+                date: state.date,
+                time: state.time,
+                number_of_people: state.people,
+                category_id: cat,
+                city_id: city,
+              },
+            },
+          });
+        });
+      }
+    );
+    console.log(url);
   };
 
+  console.log(insertData);
+
   if (insertData !== undefined) {
-    // handleClick();
     return (
       <Navigate
         to={`/activity/${insertData?.insert_project_fe_activities_one?.id}`}
@@ -108,6 +163,15 @@ function Create() {
               onChange={onChangeCat}
             />
           </label>
+        </div>
+        <div className="input-group">
+          <input
+            type="file"
+            className="input-form"
+            onChange={(e) => {
+              setImage(e.target.files[0]);
+            }}
+          />
         </div>
         <div className="input-group">
           <label>
@@ -187,6 +251,7 @@ function Create() {
         </button>
       </a>
       {/* Button to change page delete later*/}
+      {insertLoading || uploading === true ? <h1>Uploading data...</h1> : ""}
     </div>
   );
 }
