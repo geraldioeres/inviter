@@ -1,4 +1,4 @@
 # inviter
 Mini Project for Front End Curriculum Kampus Merdeka
 
-Currently working branch: firebase
+Currently working branch: auth
