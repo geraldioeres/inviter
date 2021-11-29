@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
@@ -33,6 +33,14 @@ const INSERT_ACTIVITY = gql`
 `;
 
 function Create() {
+  let navigate = useNavigate();
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+    if (!authToken) {
+      navigate("/login");
+    }
+  }, []);
+
   const auth = getAuth();
   const user = auth.currentUser;
 

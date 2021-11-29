@@ -14,6 +14,7 @@ function Navigation() {
   });
 
   const logout = async () => {
+    sessionStorage.removeItem('Auth Token');
     await signOut(auth);
   };
 
@@ -44,6 +45,7 @@ function Navigation() {
                 </Nav.Link>
               );
             })}
+            {user ? <Nav.Link>{user.email}</Nav.Link> : ""}
             {user ? <button onClick={logout}>Log out</button> : ""}
             {/* <Nav.Link
               href="/"

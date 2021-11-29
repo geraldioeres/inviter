@@ -7,7 +7,7 @@ import { getAuth } from "firebase/auth";
 import "./Details.css";
 
 const GET_ACTIVITY = gql`
-  query MyQuery($id: Int!) {
+  query MyQuery($id: Int!, $_eq: String!) {
     project_fe_activities_by_pk(id: $id) {
       id
       title
@@ -30,6 +30,9 @@ const GET_ACTIVITY = gql`
       }
       like
       image_url
+      joiners(where: { user_uid: { _eq: $_eq } }) {
+        id
+      }
     }
   }
 `;
@@ -42,17 +45,46 @@ const DELETE_ACTIVITY = gql`
   }
 `;
 
+const JOIN_ACTIVITY = gql`
+  mutation MyMutation($object: project_fe_joined_insert_input = {}) {
+    insert_project_fe_joined_one(object: $object) {
+      id
+    }
+  }
+`;
+
+const CANCEL_JOINED_ACTIVITY = gql`
+  mutation MyMutation($id: Int!) {
+    delete_project_fe_joined_by_pk(id: $id) {
+      id
+    }
+  }
+`;
+
 function Details() {
   const auth = getAuth();
   const user = auth.currentUser;
 
   const { id } = useParams();
-  const { data, loading } = useQuery(GET_ACTIVITY, { variables: { id: id } });
+  const { data, loading } = useQuery(GET_ACTIVITY, {
+    variables: { id: id, _eq: user?.uid },
+  });
   const [deleteActivity, { data: dataDelete, loading: loadingDelete }] =
     useMutation(DELETE_ACTIVITY, {
       refetchQueries: [GET_ACTIVITY],
       notifyOnNetworkStatusChange: true,
     });
+
+  const [joinActivity, { loading: loadingJoin }] = useMutation(JOIN_ACTIVITY, {
+    refetchQueries: [GET_ACTIVITY],
+  });
+
+  const [cancelJoin, { loading: loadingCancel }] = useMutation(
+    CANCEL_JOINED_ACTIVITY,
+    {
+      refetchQueries: [GET_ACTIVITY],
+    }
+  );
 
   const handleDelete = () => {
     deleteActivity({
@@ -63,6 +95,25 @@ function Details() {
   };
 
   const dataDetails = data?.project_fe_activities_by_pk;
+
+  const handleJoin = () => {
+    joinActivity({
+      variables: {
+        object: {
+          activity_id: dataDetails?.id,
+          user_uid: user?.uid,
+        },
+      },
+    });
+  };
+
+  const handleCancel = () => {
+    cancelJoin({
+      variables: {
+        id: dataDetails?.joiners[0]?.id,
+      },
+    });
+  };
 
   return (
     <div>
@@ -115,15 +166,40 @@ function Details() {
               </button>
             </>
           ) : (
-            <button type="button" className="join-button">
-              Join Activity
-            </button>
+            <>
+              <button
+                type="button"
+                className="join-button"
+                onClick={handleJoin}
+              >
+                Join Activity
+              </button>
+              <button
+                type="button"
+                className="join-button"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            </>
           )}
           <a href="/">
             <button type="button" style={{ background: "yellow" }}>
               Home
             </button>
           </a>
+          {loadingJoin ? (
+            <h1>Joining activity...</h1>
+          ) : loadingCancel ? (
+            <h1>Cancel join activity...</h1>
+          ) : (
+            ""
+          )}
+          {dataDetails?.joiners[0]?.id ? (
+            <h1>Joined</h1>
+          ) : (
+            <h1>Not yet joined</h1>
+          )}
         </>
       )}
     </div>

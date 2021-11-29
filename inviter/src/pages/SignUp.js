@@ -37,6 +37,7 @@ function SignUp() {
         registerEmail,
         registerPassword
       );
+      sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
       signUpUser({
         variables: {
           object: {

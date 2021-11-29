@@ -47,6 +47,14 @@ const EDIT_DATA = gql`
 `;
 
 function Edit() {
+  let navigate = useNavigate();
+  useEffect(() => {
+      let authToken = sessionStorage.getItem('Auth Token')
+      if (!authToken) {
+          navigate('/login')
+      }
+  }, [])
+
   const { id } = useParams();
   const { data, loading } = useQuery(GET_CURRENT_ACTIVITY, {
     variables: { id: id },
@@ -201,7 +209,6 @@ function Edit() {
   //   });
   // };
 
-  let navigate = useNavigate();
   const goBack = () => {
     navigate(-1);
   };

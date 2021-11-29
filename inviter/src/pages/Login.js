@@ -18,6 +18,8 @@ function Login() {
         loginEmail,
         loginPassword
       );
+      console.log(user)
+      sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
     } catch (error) {
       console.log(error.message);
     }
