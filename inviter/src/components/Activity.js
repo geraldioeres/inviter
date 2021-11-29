@@ -18,7 +18,6 @@ const GET_ACTIVITIES = gql`
       id
       title
       user_uid
-      like
       number_of_people
       description
       date
@@ -27,11 +26,22 @@ const GET_ACTIVITIES = gql`
       category_id
       user {
         full_name
+        photo_url
       }
       city {
         name
       }
       image_url
+      likes_aggregate {
+        aggregate {
+          count
+        }
+      }
+      joiners_aggregate {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `;
@@ -63,7 +73,16 @@ function Activity() {
           </span>
         </Col>
         <Col xs={1}>
-          <span className="filter" onClick={() => setFilter({ like: "desc" })}>
+          <span
+            className="filter"
+            onClick={() =>
+              setFilter({
+                likes_aggregate: {
+                  count: "desc",
+                },
+              })
+            }
+          >
             Popular
           </span>
         </Col>
@@ -86,13 +105,17 @@ function Activity() {
                     <HiLocationMarker /> {val.city.name}
                   </div>
                   <div className="bottom-left">
-                    <img className="host-image" src={Profile} alt="host-img" />
+                    <img
+                      className="host-image"
+                      src={val.user.photo_url}
+                      alt="host-img"
+                    />
                     <h6 className="host-tag">host</h6>
                     <p className="host-name">{val.user.full_name}</p>
                   </div>
                   <div className="bottom-right">
                     <div className="people">
-                      <BsFillPeopleFill /> {val.current_people} /{" "}
+                      <BsFillPeopleFill /> {val.joiners_aggregate.aggregate.count} /{" "}
                       {val.number_of_people}
                     </div>
                     <Link to={`activity/${val.id}`} className="details-link">
@@ -121,7 +144,9 @@ function Activity() {
                   <Row style={{ paddingTop: "12px" }}>
                     <Col className="stats-col">
                       <AiFillHeart size={22} color="deeppink" />
-                      <p className="stats-text">{val.like}</p>
+                      <p className="stats-text">
+                        {val.likes_aggregate.aggregate.count}
+                      </p>
                     </Col>
                     <Col className="stats-col">
                       <BsFillShareFill />

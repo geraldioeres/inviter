@@ -6,6 +6,7 @@ import Details from "./pages/Details";
 import Edit from "./pages/Edit";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/create" element={<Create />} />
           <Route path="/activity/:id" element={<Details />} />
           <Route path="/activity/:id/edit" element={<Edit />} />
+          <Route path="/user/:uid" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
         </Routes>

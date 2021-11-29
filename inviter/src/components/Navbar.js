@@ -45,7 +45,7 @@ function Navigation() {
                 </Nav.Link>
               );
             })}
-            {user ? <Nav.Link>{user.email}</Nav.Link> : ""}
+            {user ? <Nav.Link href={`user/${user.uid}`}>{user.email}</Nav.Link> : ""}
             {user ? <button onClick={logout}>Log out</button> : ""}
             {/* <Nav.Link
               href="/"
