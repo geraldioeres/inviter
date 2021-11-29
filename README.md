@@ -1,4 +1,4 @@
 # inviter
 Mini Project for Front End Curriculum Kampus Merdeka
 
-Currently working branch: auth
+Currently working branch: join-activity
