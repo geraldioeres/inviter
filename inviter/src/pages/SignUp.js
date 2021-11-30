@@ -6,7 +6,7 @@ import {
 import { auth } from "../firebase/firebase-config";
 import { gql, useMutation } from "@apollo/client";
 import { Navigate } from "react-router-dom";
-import "./SignUp.css";
+import "./Login.css";
 
 const SIGNUP_USER = gql`
   mutation MyMutation($object: project_fe_users_insert_input = {}) {
@@ -54,67 +54,70 @@ function SignUp() {
   };
 
   return (
-    <div className="signup-body">
-      <div className="container">
-        <h1 className="title">Sign Up</h1>
-        <span className="signup-login">
-          Already have an account?{" "}
-          <a href="/login" className="login-link">
-            Log in now!
-          </a>
-        </span>
-        <form>
-          <div className="signup-form">
-            <label className="signup-label">
-              Full Name
+    <div className="signup">
+      <div
+        className="container"
+        style={{ maxWidth: "500px", padding: "0 20px", margin: "160px auto" }}
+      >
+        <div className="signup-wrapper">
+          <h1 className="signup-title">Sign Up</h1>
+          <div className="parent-link">
+            <div className="signup-login">
+              Already have an account?{" "}
+              <a href="/login" className="login-link">
+                Log in now!
+              </a>
+            </div>
+          </div>
+          <form className="form-container">
+            <div className="signup-form">
+              <label className="signup-label">Full Name</label>
               <input
                 type="text"
                 className="signup-input"
                 placeholder="Full Name"
                 onChange={(e) => setRegisterName(e.target.value)}
               />
-            </label>
-          </div>
-          <div className="signup-form">
-            <label className="signup-label">
-              Email Address
+            </div>
+            <div className="signup-form">
+              <label className="signup-label">Email Address</label>
               <input
                 type="email"
                 className="signup-input"
                 placeholder="Email Address"
                 onChange={(e) => setRegisterEmail(e.target.value)}
               />
-            </label>
-          </div>
-          <div className="signup-form">
-            <label className="signup-label">
-              Password
+            </div>
+            <div className="signup-form">
+              <label className="signup-label">Password</label>
               <input
                 type="text"
                 className="signup-input"
                 placeholder="Password"
                 onChange={(e) => setRegisterPassword(e.target.value)}
               />
-            </label>
-          </div>
-          <button onClick={signup} className="signup-button">
-            Sign Up
-          </button>
-        </form>
-        {loading ? (
-          <h1>Registering user...</h1>
-        ) : data ? (
-          <Navigate to="/" />
-        ) : (
-          ""
-        )}
-        {/* Button to change page delete later*/}
-        <a href="/">
-          <button type="button" style={{ background: "yellow" }}>
-            Home
-          </button>
-        </a>
-        {/* Button to change page delete later*/}
+            </div>
+            <div className="signup-form">
+              <button onClick={signup} className="signup-button">
+                Sign Up
+              </button>
+            </div>
+            {loading ? (
+              <h1>Registering user...</h1>
+            ) : data ? (
+              <Navigate to="/" />
+            ) : (
+              ""
+            )}
+            {/* Button to change page delete later*/}
+            <a href="/">
+              <button type="button" style={{ background: "yellow" }}>
+                Home
+              </button>
+            </a>
+            {/* Button to change page delete later*/}
+          </form>
+        </div>
       </div>
     </div>
   );

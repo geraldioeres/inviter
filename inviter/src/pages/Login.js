@@ -28,10 +28,13 @@ function Login() {
 
   return (
     <div className="login">
-      <div className="container" style={{maxWidth: "500px", padding: "0 20px", margin: "160px auto"}}>
+      <div
+        className="container"
+        style={{ maxWidth: "500px", padding: "0 20px", margin: "160px auto" }}
+      >
         <div className="login-wrapper">
           <h1 className="form-title">Login</h1>
-          <form className="form-container">
+          <div className="form-container">
             <div className="login-form">
               <label className="login-label">Email Address</label>
               <input
@@ -56,12 +59,14 @@ function Login() {
               </button>
             </div>
             <div className="login-form">
-              <span className="login-signup">
-                Don't have an account?{" "}
-                <a href="/signup" className="signup-link">
-                  Sign Up Now!
-                </a>
-              </span>
+              <div className="parent-link">
+                <div className="login-signup">
+                  Don't have an account?{" "}
+                  <a href="/signup" className="signup-link">
+                    Sign Up Now!
+                  </a>
+                </div>
+              </div>
             </div>
             {user?.email}
             {/* Button to change page delete later*/}
@@ -71,7 +76,7 @@ function Login() {
               </button>
             </a>
             {/* Button to change page delete later*/}
-          </form>
+          </div>
         </div>
       </div>
     </div>

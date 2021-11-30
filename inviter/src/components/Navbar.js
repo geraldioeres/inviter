@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import "./Navbar.css";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -20,9 +20,12 @@ function Navigation() {
 
   let item = UnsignedNav;
 
-  if (user) {
-    item = SignedNav;
-  }
+  useEffect(() => {
+    let authToken = sessionStorage.getItem("Auth Token");
+    if (authToken) {
+      item = SignedNav;
+    }
+  }, []);
 
   return (
     <div className="navigation">
@@ -47,21 +50,6 @@ function Navigation() {
             })}
             {user ? <Nav.Link href={`user/${user.uid}`}>{user.email}</Nav.Link> : ""}
             {user ? <button onClick={logout}>Log out</button> : ""}
-            {/* <Nav.Link
-              href="/"
-              style={{ paddingRight: "2rem", paddingTop: "13px" }}
-            >
-              Home
-            </Nav.Link>
-            <Nav.Link
-              href="/login"
-              style={{ paddingRight: "2rem", paddingTop: "13px" }}
-            >
-              Log In
-            </Nav.Link>
-            <Nav.Link href="/signup">
-              <button className="sign-up-button">Sign Up</button>
-            </Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>
