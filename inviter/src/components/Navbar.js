@@ -4,6 +4,7 @@ import "./Navbar.css";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { SignedNav } from "./SignedNav";
 import { UnsignedNav } from "./UnsignedNav";
+import Logo from "../assests/images/logo2.2.jpg";
 
 function Navigation() {
   const [user, setUser] = useState({});
@@ -14,7 +15,7 @@ function Navigation() {
   });
 
   const logout = async () => {
-    sessionStorage.removeItem('Auth Token');
+    sessionStorage.removeItem("Auth Token");
     await signOut(auth);
   };
 
@@ -32,7 +33,7 @@ function Navigation() {
       <Navbar bg="white" sticky="top">
         <Container>
           <Navbar.Brand href="/">
-            <h1>INVITER</h1>
+            <img src={Logo} alt="inviter-logo" className="logo" />
           </Navbar.Brand>
           <Nav className="ml-auto">
             {item.map((item, index) => {
@@ -41,14 +42,22 @@ function Navigation() {
                   href={item.path}
                   key={index}
                   className={item.cName}
-                  style={{ marginRight: "2rem", marginTop: "1px" }}
+                  style={{
+                    marginRight: "3rem",
+                    marginTop: "1px",
+                    fontSize: "16px",
+                  }}
                 >
                   {" "}
                   {item.title}
                 </Nav.Link>
               );
             })}
-            {user ? <Nav.Link href={`user/${user.uid}`}>{user.email}</Nav.Link> : ""}
+            {user ? (
+              <Nav.Link href={`user/${user.uid}`}>{user.email}</Nav.Link>
+            ) : (
+              ""
+            )}
             {user ? <button onClick={logout}>Log out</button> : ""}
           </Nav>
         </Container>

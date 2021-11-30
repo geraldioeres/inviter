@@ -36,7 +36,7 @@ import "./Details.css";
 //   }
 // `;
 const GET_ACTIVITY = gql`
-  query MyQuery($id: Int!, $_eq: String!, $_eq1: String = "") {
+  query MyQuery($id: Int!, $_eq: String = "", $_eq1: String = "") {
     project_fe_activities_by_pk(id: $id) {
       id
       title

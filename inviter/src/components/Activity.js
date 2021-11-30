@@ -57,7 +57,7 @@ function Activity() {
 
   return (
     <div className="activity">
-      <h3>Hey! They are looking for you now</h3>
+      <h3 className="activity-header">Hey! They are looking for you now</h3>
       <Row>
         <Col xs={1} style={{ marginLeft: "105px" }}>
           <span className="filter" onClick={() => setFilter({})}>

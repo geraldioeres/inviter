@@ -1,8 +1,17 @@
+@import url(../partials/_variables.css);
+
 .activity {
+  margin-top: 20px;
   text-align: center;
 }
 
-.card-title, .title {
+.activity-header {
+  font: normal normal 32px/48px var(--roboto);
+  margin-bottom: 20px !important;
+}
+
+.card-title,
+.title {
   margin-bottom: 0px !important;
 }
 
@@ -56,7 +65,7 @@
 }
 
 /* Start Variant 2 */
-.variant1{
+.variant1 {
   width: 272px !important;
   margin-left: 11px;
   margin-top: 30px !important;
@@ -69,7 +78,7 @@
   float: left;
   background: white;
   padding: 5px;
-  border-radius: 20px ;
+  border-radius: 20px;
 }
 
 .host-profile {
@@ -123,7 +132,8 @@
   text-decoration: none;
 }
 
-.date-icon, .time-icon{
+.date-icon,
+.time-icon {
   margin-right: 5px;
 }
 
@@ -135,5 +145,6 @@
 
 .filter {
   cursor: pointer;
+  font: lighter normal 16px/18px var(--roboto);
 }
 /* End Version 2 */

@@ -1,3 +1,57 @@
+@import url(../partials/_variables.css);
+
 .hero {
-    border: 1px solid black;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 40vh;
+  background: url(../assests/images/hero-bg2.jpg);
+  background-size:initial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px 35px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.hero-input-group {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.search-label {
+  font-weight: 500;
+}
+
+.search-input {
+  height: 45px;
+}
+
+.search-input-form {
+  height: 100%;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+.search-button {
+  font: normal 400 16px/18px var(--roboto);
+  border: 1px solid transparent;
+  color: white;
+  background: #c046fc;
+  border-radius: 20px;
+  height: 40px;
+  padding: 0px 30px;
+  margin-top: 28px;
+}
+
+.search-button:hover {
+  background: #470089cb;
 }

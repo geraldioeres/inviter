@@ -5,7 +5,7 @@ function Hero() {
   return (
     <div className="hero">
       <form className="search-form">
-        <div className="input-group">
+        <div className="hero-input-group">
           <label className="search-label">What are you looking for?</label>
           <div className="search-input">
             <input
@@ -15,7 +15,7 @@ function Hero() {
             />
           </div>
         </div>
-        <div className="input-group">
+        <div className="hero-input-group">
           <label className="search-label">Where the activity held?</label>
           <div className="search-input">
             <input
@@ -25,7 +25,7 @@ function Hero() {
             />
           </div>
         </div>
-        <div className="input-group">
+        <div className="hero-input-group">
           <label className="search-label">When you are available?</label>
           <div className="search-input">
             <input
