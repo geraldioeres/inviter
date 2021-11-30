@@ -6,6 +6,7 @@ import {
 import { auth } from "../firebase/firebase-config";
 import { gql, useMutation } from "@apollo/client";
 import { Navigate } from "react-router-dom";
+import "./SignUp.css";
 
 const SIGNUP_USER = gql`
   mutation MyMutation($object: project_fe_users_insert_input = {}) {
@@ -37,7 +38,7 @@ function SignUp() {
         registerEmail,
         registerPassword
       );
-      sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
+      sessionStorage.setItem("Auth Token", user._tokenResponse.refreshToken);
       signUpUser({
         variables: {
           object: {
@@ -53,58 +54,68 @@ function SignUp() {
   };
 
   return (
-    <div>
-      <h1>Sign Up</h1>
-      <span className="signup-login">
-        Already have an account?{" "}
-        <a href="/login" className="login-link">
-          Log in now!
+    <div className="signup-body">
+      <div className="container">
+        <h1 className="title">Sign Up</h1>
+        <span className="signup-login">
+          Already have an account?{" "}
+          <a href="/login" className="login-link">
+            Log in now!
+          </a>
+        </span>
+        <form>
+          <div className="signup-form">
+            <label className="signup-label">
+              Full Name
+              <input
+                type="text"
+                className="signup-input"
+                placeholder="Full Name"
+                onChange={(e) => setRegisterName(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="signup-form">
+            <label className="signup-label">
+              Email Address
+              <input
+                type="email"
+                className="signup-input"
+                placeholder="Email Address"
+                onChange={(e) => setRegisterEmail(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="signup-form">
+            <label className="signup-label">
+              Password
+              <input
+                type="text"
+                className="signup-input"
+                placeholder="Password"
+                onChange={(e) => setRegisterPassword(e.target.value)}
+              />
+            </label>
+          </div>
+          <button onClick={signup} className="signup-button">
+            Sign Up
+          </button>
+        </form>
+        {loading ? (
+          <h1>Registering user...</h1>
+        ) : data ? (
+          <Navigate to="/" />
+        ) : (
+          ""
+        )}
+        {/* Button to change page delete later*/}
+        <a href="/">
+          <button type="button" style={{ background: "yellow" }}>
+            Home
+          </button>
         </a>
-      </span>
-      <form>
-        <div className="signup-form">
-          <label className="signup-label">
-            Full Name
-            <input
-              type="text"
-              className="signup-input"
-              placeholder="Full Name"
-              onChange={(e) => setRegisterName(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="signup-form">
-          <label className="signup-label">
-            Email Address
-            <input
-              type="email"
-              className="signup-input"
-              placeholder="Email Address"
-              onChange={(e) => setRegisterEmail(e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="signup-form">
-          <label className="signup-label">
-            Password
-            <input
-              type="text"
-              className="signup-input"
-              placeholder="Password"
-              onChange={(e) => setRegisterPassword(e.target.value)}
-            />
-          </label>
-        </div>
-        <button onClick={signup}>Sign Up</button>
-      </form>
-      {loading ? <h1>Registering user...</h1> : data ? <Navigate to="/" /> : ""}
-      {/* Button to change page delete later*/}
-      <a href="/">
-        <button type="button" style={{ background: "yellow" }}>
-          Home
-        </button>
-      </a>
-      {/* Button to change page delete later*/}
+        {/* Button to change page delete later*/}
+      </div>
     </div>
   );
 }

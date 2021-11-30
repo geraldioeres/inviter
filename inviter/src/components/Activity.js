@@ -56,7 +56,7 @@ function Activity() {
   });
 
   return (
-    <div>
+    <div className="activity">
       <h3>Hey! They are looking for you now</h3>
       <Row>
         <Col xs={1} style={{ marginLeft: "105px" }}>

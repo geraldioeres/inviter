@@ -1,3 +1,7 @@
+.activity {
+  text-align: center;
+}
+
 .card-title, .title {
   margin-bottom: 0px !important;
 }

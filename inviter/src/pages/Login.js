@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
+import "./Login.css";
 
 function Login() {
   const [user, setUser] = useState({});
@@ -18,8 +19,8 @@ function Login() {
         loginEmail,
         loginPassword
       );
-      console.log(user)
-      sessionStorage.setItem('Auth Token', user._tokenResponse.refreshToken)
+      console.log(user);
+      sessionStorage.setItem("Auth Token", user._tokenResponse.refreshToken);
     } catch (error) {
       console.log(error.message);
     }
@@ -27,46 +28,52 @@ function Login() {
 
   return (
     <div className="login">
-      <h1>Login</h1>
-      <div className="login-container">
-        <div className="login-form">
-          <label className="login-label">
-            Email Address
-            <input
-              type="email"
-              className="login-input"
-              placeholder="Email Address"
-              onChange={(e) => setLoginEmail(e.target.value)}
-            />
-          </label>
+      <div className="container" style={{maxWidth: "500px", padding: "0 20px", margin: "160px auto"}}>
+        <div className="login-wrapper">
+          <h1 className="form-title">Login</h1>
+          <form className="form-container">
+            <div className="login-form">
+              <label className="login-label">Email Address</label>
+              <input
+                type="email"
+                className="login-input"
+                placeholder="Email Address"
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+            </div>
+            <div className="login-form">
+              <label className="login-label">Password</label>
+              <input
+                type="text"
+                className="login-input"
+                placeholder="Password"
+                onChange={(e) => setLoginPassword(e.target.value)}
+              />
+            </div>
+            <div className="login-form">
+              <button onClick={login} className="login-button">
+                Log In
+              </button>
+            </div>
+            <div className="login-form">
+              <span className="login-signup">
+                Don't have an account?{" "}
+                <a href="/signup" className="signup-link">
+                  Sign Up Now!
+                </a>
+              </span>
+            </div>
+            {user?.email}
+            {/* Button to change page delete later*/}
+            <a href="/">
+              <button type="button" style={{ background: "yellow" }}>
+                Home
+              </button>
+            </a>
+            {/* Button to change page delete later*/}
+          </form>
         </div>
-        <div className="login-form">
-          <label className="login-label">
-            Password
-            <input
-              type="text"
-              className="login-input"
-              placeholder="Password"
-              onChange={(e) => setLoginPassword(e.target.value)}
-            />
-          </label>
-        </div>
-        <button onClick={login}>Log In</button>
       </div>
-      <span className="login-signup">
-        Don't have an account?{" "}
-        <a href="/signup" className="signup-link">
-          Sign Up Now!
-        </a>
-      </span>
-      {user?.email}
-      {/* Button to change page delete later*/}
-      <a href="/">
-        <button type="button" style={{ background: "yellow" }}>
-          Home
-        </button>
-      </a>
-      {/* Button to change page delete later*/}
     </div>
   );
 }

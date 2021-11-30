@@ -1,0 +1,90 @@
+/* @import url("https://fonts.googleapis.com/css2?family=M+PLUS+1+Code&display=swap"); */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+1+Code&family=Mukta&family=Ubuntu:wght@300;400&display=swap');
+
+.login {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: #f2f2f2;
+  /* font-family: "M PLUS 1 Code", sans-serif; */
+  font-family: 'Mukta', sans-serif;
+  overflow: hidden;
+}
+
+.login-wrapper {
+  width: 100%;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+}
+
+.form-title {
+  color: white;
+  font-size: 35px;
+  font-weight: 600;
+  text-align: center;
+  line-height: 80px;
+  border-radius: 15px 15px 0px 0px;
+  /* background: linear-gradient(-135deg, #c850c0, #4158d0); */
+  background: url(../assests/images/form-bg.jpg);
+  background-size: cover;
+}
+
+.form-container {
+  padding: 30px 20px 25px 20px;
+}
+
+.login-form {
+  height: 45px;
+  margin-bottom: 35px;
+}
+
+.login-label {
+  width: 100%;
+  font-size: 18px;
+  padding: 0px 4px;
+}
+
+.login-input {
+  height: 90%;
+  width: 100%;
+  border: 1px solid lightgrey;
+  border-radius: 10px;
+  padding-left: 15px;
+}
+
+.login-button {
+  margin-top: 10px;
+  height: 100%;
+  width: 100%;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  color: white;
+  background: rgba(38, 36, 129, 0.767);
+  font-size: 22px;
+}
+
+.login-button:hover {
+  background: rgb(38, 36, 129);
+}
+
+.login-signup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.signup-link {
+  padding-left: 5px;
+  color: rgba(38, 36, 129, 0.767);
+  text-decoration: none;
+}
+
+.signup-link:hover{
+    text-decoration: underline;
+}
