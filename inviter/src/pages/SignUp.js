@@ -103,7 +103,7 @@ function SignUp() {
               </button>
             </div>
             {loading ? (
-              <h1>Registering user...</h1>
+              <div className="redirect-link">Registering user...</div>
             ) : data ? (
               <Navigate to="/" />
             ) : (
