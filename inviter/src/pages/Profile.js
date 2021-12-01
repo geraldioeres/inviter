@@ -4,13 +4,13 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
-import { AiFillHeart } from "react-icons/ai";
+import { AiFillHeart, AiFillHome } from "react-icons/ai";
 import { BsFillShareFill, BsFillPeopleFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
 import { BsFillCalendar2WeekFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { GrFlag } from "react-icons/gr";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import "./Profile.css";
 
 const GET_USER_DATA = gql`
@@ -133,6 +133,9 @@ function Profile() {
         </div>
       ) : (
         <>
+          <Link to="/">
+            <AiFillHome className="home-icon" size={28} />
+          </Link>
           <div className="profile">
             <div className="profile-wrapper">
               <Row>
@@ -158,10 +161,14 @@ function Profile() {
                   />
                 </Col>
                 <Col>
-                <div className="upload-profile">
-                  <button onClick={handleUploadPhoto} style={{ width: "6rem" }} className="upload-button">
-                    Upload
-                  </button>
+                  <div className="upload-profile">
+                    <button
+                      onClick={handleUploadPhoto}
+                      style={{ width: "6rem" }}
+                      className="upload-button"
+                    >
+                      Upload
+                    </button>
                   </div>
                   {loadingUpload || uploading === true ? (
                     <h4>Uploading image</h4>

@@ -27,28 +27,39 @@
   height: 600px;
 }
 
-.joined-activity{
-    text-align: center;
+.joined-activity {
+  text-align: center;
 }
 
-.profile-line{
-    width: 80%;
-    margin-left: 10%;
+.profile-line {
+  width: 80%;
+  margin-left: 10%;
 }
 
-.upload-profile{
-    text-align: center;
-    margin-top: 40px;
+.upload-profile {
+  text-align: center;
+  margin-top: 40px;
 }
 
-.upload-button{
-    color: white;
-    border: 1px solid transparent;
-    padding: 20px 20px;
-    border-radius: 10px;
-    background: var(--color-purple-1);
+.upload-button {
+  color: white;
+  border: 1px solid transparent;
+  padding: 20px 20px;
+  border-radius: 10px;
+  background: var(--color-purple-1);
 }
 
-.upload-button:hover{
-    background: var(--color-purple-2);
+.upload-button:hover {
+  background: var(--color-purple-2);
+}
+
+.home-icon {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  color: var(--color-dark-blue-1);
+}
+
+.home-icon:hover{
+  color: var(--color-dark-blue-2);
 }

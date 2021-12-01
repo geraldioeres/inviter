@@ -8,6 +8,7 @@ function Login() {
   const [user, setUser] = useState({});
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
+  const [loggedin, setLoggedin] = useState(false);
 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
@@ -22,12 +23,17 @@ function Login() {
       );
       console.log(user);
       sessionStorage.setItem("Auth Token", user._tokenResponse.refreshToken);
+      setLoggedin(true);
     } catch (error) {
       console.log(error.message);
     }
   };
 
+  let navigate = useNavigate();
 
+  if (loggedin) {
+    setTimeout(() => navigate(-1), 5000);
+  }
 
   return (
     <div className="login">
@@ -71,6 +77,11 @@ function Login() {
                 </div>
               </div>
             </div>
+            {loggedin ? (
+              <div className="redirect-link">Redirecting...</div>
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </div>

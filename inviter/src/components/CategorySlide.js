@@ -1,5 +1,6 @@
 import React from "react";
 import Slider from "react-slick";
+import { Spinner } from "react-bootstrap";
 import "./CategorySlider.css";
 import { gql, useQuery } from "@apollo/client";
 
@@ -14,7 +15,7 @@ const GET_CATEGORIES = gql`
 `;
 
 function CategorySlide() {
-  const { data } = useQuery(GET_CATEGORIES);
+  const { data, loading } = useQuery(GET_CATEGORIES);
 
   var settings = {
     dots: true,
@@ -54,24 +55,32 @@ function CategorySlide() {
     <div className="categories">
       <h2 className="category-title">Categories</h2>
       <div>
-        <Slider {...settings}>
-          {data?.project_fe_categories?.map((v) => (
-            <div key={v.id}>
-              <a href={v.name} className="slider-link">
-                <div className="slider-item">
-                  <div
-                    className="slider-container"
-                    style={{
-                      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)) , url("${v.photo_url}")`,
-                    }}
-                  >
-                    {v.name}
+        {loading ? (
+          <div className="home-loading">
+            <Spinner animation="grow" />
+            <Spinner animation="grow" />
+            <Spinner animation="grow" />
+          </div>
+        ) : (
+          <Slider {...settings}>
+            {data?.project_fe_categories?.map((v) => (
+              <div key={v.id}>
+                <a href={v.name} className="slider-link">
+                  <div className="slider-item">
+                    <div
+                      className="slider-container"
+                      style={{
+                        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)) , url("${v.photo_url}")`,
+                      }}
+                    >
+                      {v.name}
+                    </div>
                   </div>
-                </div>
-              </a>
-            </div>
-          ))}
-        </Slider>
+                </a>
+              </div>
+            ))}
+          </Slider>
+        )}
       </div>
     </div>
   );

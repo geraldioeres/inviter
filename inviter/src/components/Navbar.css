@@ -19,6 +19,7 @@
 
 .create-button:hover {
   background: purple;
+  color: white !important;
 }
 
 .unsigned-menu, .signed-menu {
