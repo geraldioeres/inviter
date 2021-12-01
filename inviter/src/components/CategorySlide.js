@@ -2,7 +2,6 @@ import React from "react";
 import Slider from "react-slick";
 import "./CategorySlider.css";
 import { gql, useQuery } from "@apollo/client";
-import BG from "../assests/images/volunteer.jpg";
 
 const GET_CATEGORIES = gql`
   query MyQuery {

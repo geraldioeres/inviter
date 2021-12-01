@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Spinner } from "react-bootstrap";
 import Select from "react-select";
 import { Navigate, useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
@@ -267,7 +268,10 @@ function Create() {
             </button>
           </form>
           {insertLoading || uploading === true ? (
-            <h1>Uploading data...</h1>
+            <div className="loading-container">
+              <span className="create-loading">Uploading data</span>
+              <Spinner animation="border" variant="primary" />
+            </div>
           ) : (
             ""
           )}

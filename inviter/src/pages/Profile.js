@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
 import { AiFillHeart } from "react-icons/ai";
@@ -11,7 +11,7 @@ import { BsFillCalendar2WeekFill } from "react-icons/bs";
 import { BiTimeFive } from "react-icons/bi";
 import { GrFlag } from "react-icons/gr";
 import { NavLink } from "react-router-dom";
-import './Profile.css'
+import "./Profile.css";
 
 const GET_USER_DATA = gql`
   query MyQuery($uid: String!, $_eq: String!) {
@@ -36,6 +36,7 @@ const GET_USER_DATA = gql`
         category_id
         user {
           full_name
+          photo_url
         }
         city {
           name
@@ -65,7 +66,9 @@ function Profile() {
   const { data, loading } = useQuery(GET_USER_DATA, {
     variables: { uid: uid, _eq: uid },
   });
-  const [uploadPhoto, { loading: loadingUpload }] = useMutation(UPLOAD_PHOTO, {refetchQueries: [GET_USER_DATA]});
+  const [uploadPhoto, { loading: loadingUpload }] = useMutation(UPLOAD_PHOTO, {
+    refetchQueries: [GET_USER_DATA],
+  });
 
   const handleUploadPhoto = () => {
     if (image === undefined) return;
@@ -124,28 +127,55 @@ function Profile() {
   return (
     <div>
       {loading ? (
-        <h1>Loading user data...</h1>
+        <div className="loading-profile">
+          {" "}
+          <Spinner animation="border" variant="dark" />
+        </div>
       ) : (
         <>
-            <div>
-            <h1 className="profile-name">{data?.project_fe_users_by_pk?.full_name}</h1>
-            <img src={data?.project_fe_users_by_pk?.photo_url} alt="profile" className="profile-photo"/>
-            <input
-              type="file"
-              onChange={(e) => {
-                setImage(e.target.files[0]);
-              }}
-            />
-            <button onClick={handleUploadPhoto} style={{ width: "6rem" }}>
-              Upload
-            </button>
-            {loadingUpload || uploading === true ? (
-              <h4>Uploading image</h4>
-            ) : (
-              ""
-            )}
-             </div>
-          <h1>Joined Activity</h1>
+          <div className="profile">
+            <div className="profile-wrapper">
+              <Row>
+                <Col xs={3}>
+                  <img
+                    src={data?.project_fe_users_by_pk?.photo_url}
+                    alt="profile"
+                    className="profile-photo"
+                  />
+                </Col>
+                <Col>
+                  <h1 className="profile-name">
+                    {data?.project_fe_users_by_pk?.full_name}
+                  </h1>
+                  <h2 className="profile-email">
+                    {data?.project_fe_users_by_pk?.email}
+                  </h2>
+                  <input
+                    type="file"
+                    onChange={(e) => {
+                      setImage(e.target.files[0]);
+                    }}
+                  />
+                </Col>
+                <Col>
+                <div className="upload-profile">
+                  <button onClick={handleUploadPhoto} style={{ width: "6rem" }} className="upload-button">
+                    Upload
+                  </button>
+                  </div>
+                  {loadingUpload || uploading === true ? (
+                    <h4>Uploading image</h4>
+                  ) : (
+                    ""
+                  )}
+                </Col>
+              </Row>
+            </div>
+          </div>
+          <h1 className="joined-activity">Joined Activity</h1>
+          <div className="profile-border">
+            <hr className="profile-line" align="center" />
+          </div>
           <Container style={{ paddingTop: "10px", paddingBottom: "50px" }}>
             <Row>
               {data?.project_fe_joined?.map((val) => (
@@ -166,7 +196,7 @@ function Profile() {
                       <div className="bottom-left">
                         <img
                           className="host-image"
-                          src={Profile}
+                          src={val.activity.user.photo_url}
                           alt="host-img"
                         />
                         <h6 className="host-tag">host</h6>

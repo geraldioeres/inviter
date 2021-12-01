@@ -102,6 +102,11 @@
   text-decoration: underline;
 }
 
+.redirect-link {
+  text-align: center;
+  font-weight: 600;
+}
+
 /* End Login Area */
 
 /* Start Sign Up Area */

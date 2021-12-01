@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./Activity.css";
 import { Container, Row, Col } from "react-bootstrap";
-import Img1 from "../assests/images/img1.jpg";
-import Profile from "../assests/images/profile2.jpg";
 import { AiFillHeart } from "react-icons/ai";
 import { BsFillShareFill, BsFillPeopleFill } from "react-icons/bs";
 import { HiLocationMarker } from "react-icons/hi";
@@ -87,6 +85,7 @@ function Activity() {
           </span>
         </Col>
       </Row>
+      <hr className="activity-border" align="center" />
       <Container style={{ paddingTop: "10px", paddingBottom: "50px" }}>
         <Row>
           {data?.project_fe_activities?.map((val) => (

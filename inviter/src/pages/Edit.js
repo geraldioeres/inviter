@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Spinner } from "react-bootstrap";
 import Select from "react-select";
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +8,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
 import "./Create.css";
 import { ImCircleLeft } from "react-icons/im";
+import { BsCheckLg } from "react-icons/bs";
 
 const GET_CURRENT_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -227,7 +229,9 @@ function Edit() {
             <ImCircleLeft size={28} color="black" />
           </div>
           {loading ? (
-            <h1>Loading data...</h1>
+            <div className="loading-container">
+              <Spinner animation="border" variant="secondary" />
+            </div>
           ) : state && catData && cityData ? (
             <form onSubmit={handleUpdate} className="edit-form">
               <div className="category-group">
@@ -326,15 +330,25 @@ function Edit() {
                   />
                 </div>
               </div>
-              <button onClick={handleUpdate} className="edit-button">Submit</button>
+              <button onClick={handleUpdate} className="edit-button">
+                Submit
+              </button>
             </form>
           ) : (
-            <h1>Loading data...</h1>
+            <div className="loading-container">
+              <Spinner animation="border" variant="secondary" />
+            </div>
           )}
           {loadingEdit || uploading === true ? (
-            <h1>Updating activity data</h1>
+            <div className="loading-container">
+              <span className="edit-loading">Updating activity data...</span>
+              <Spinner animation="border" variant="secondary" />
+            </div>
           ) : editData !== undefined ? (
-            <h1>Successfully update activity</h1>
+            <div className="loading-container">
+              <span className="edit-loading">Successfully update activity</span>
+              <BsCheckLg size={28} color="#964362" className="edit-success"/>
+            </div>
           ) : (
             ""
           )}

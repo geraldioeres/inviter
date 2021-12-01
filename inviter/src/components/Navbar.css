@@ -21,10 +21,32 @@
   background: purple;
 }
 
-.unsigned-menu {
+.unsigned-menu, .signed-menu {
   font-family: var(--roboto);
 }
 
-.unsigned-menu:hover {
+.unsigned-menu:hover, .signed-menu:hover {
   color: #6610f2 !important;
+}
+
+.user-profile{
+  margin-right: 25px;
+  margin-top: 2px;
+  font-family: var(--roboto);
+}
+
+.user-profile:hover{
+  color: #6610f2 !important;
+}
+
+.log-out{
+  color: rgba(128, 128, 128, 0.788);
+  margin-top: 9px;
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: var(--roboto);
+}
+
+.log-out:hover{
+  color: #6610f2
 }

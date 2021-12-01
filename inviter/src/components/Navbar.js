@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import "./Navbar.css";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
@@ -16,7 +16,7 @@ function Navigation() {
 
   const logout = async () => {
     sessionStorage.removeItem("Auth Token");
-    await signOut(auth);
+    await signOut(auth).then(window.location.reload());
   };
 
   let item = UnsignedNav;
@@ -28,7 +28,7 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      <Navbar bg="white" sticky="top">
+      <Navbar bg="white shadow-sm" sticky="top">
         <Container>
           <Navbar.Brand href="/">
             <img src={Logo} alt="inviter-logo" className="logo" />
@@ -41,7 +41,7 @@ function Navigation() {
                   key={index}
                   className={item.cName}
                   style={{
-                    marginRight: "3rem",
+                    marginRight: "2.5rem",
                     marginTop: "1px",
                     fontSize: "16px",
                   }}
@@ -52,11 +52,11 @@ function Navigation() {
               );
             })}
             {user ? (
-              <Nav.Link href={`user/${user.uid}`}>{user.email}</Nav.Link>
+              <Nav.Link href={`user/${user.uid}`} className="user-profile">{user.email}</Nav.Link>
             ) : (
               ""
             )}
-            {user ? <button onClick={logout}>Log out</button> : ""}
+            {user ? <div onClick={logout} className="log-out">Log out</div> : ""}
           </Nav>
         </Container>
       </Navbar>

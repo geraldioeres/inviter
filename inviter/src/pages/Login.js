@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase-config";
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [user, setUser] = useState({});
@@ -25,6 +26,8 @@ function Login() {
       console.log(error.message);
     }
   };
+
+
 
   return (
     <div className="login">
@@ -68,14 +71,6 @@ function Login() {
                 </div>
               </div>
             </div>
-            {user?.email}
-            {/* Button to change page delete later*/}
-            <a href="/">
-              <button type="button" style={{ background: "yellow" }}>
-                Home
-              </button>
-            </a>
-            {/* Button to change page delete later*/}
           </div>
         </div>
       </div>

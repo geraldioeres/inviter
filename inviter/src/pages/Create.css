@@ -126,10 +126,31 @@ input[type="time"] {
 }
 
 .edit-button {
-    background: var(--color-purple-1);
+  background: var(--color-purple-1);
 }
 
 .edit-button:hover {
-    background: var(--color-purple-2);
+  background: var(--color-purple-2);
 }
 
+.loading-container {
+  text-align: center;
+}
+.create-loading {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 500;
+  padding-left: 4px;
+  padding-right: 4px;
+  color: rgb(2, 72, 105);
+}
+
+.edit-loading {
+  color: var(--color-purple-1);
+  font-size: 30px;
+  font-weight: 500;
+  padding-right: 10px;
+}
+.edit-success{
+  margin-top: -10px;
+}

@@ -109,13 +109,6 @@ function SignUp() {
             ) : (
               ""
             )}
-            {/* Button to change page delete later*/}
-            <a href="/">
-              <button type="button" style={{ background: "yellow" }}>
-                Home
-              </button>
-            </a>
-            {/* Button to change page delete later*/}
           </form>
         </div>
       </div>

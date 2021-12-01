@@ -147,4 +147,9 @@
   cursor: pointer;
   font: lighter normal 16px/18px var(--roboto);
 }
+
+.activity-border{
+  width: 80%;
+  margin-left: 10%;
+}
 /* End Version 2 */
