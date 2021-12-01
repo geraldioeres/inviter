@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
+import "./Create.css";
+import { ImCircleLeft } from "react-icons/im";
 
 const GET_CURRENT_ACTIVITY = gql`
   query MyQuery($id: Int!) {
@@ -49,11 +51,11 @@ const EDIT_DATA = gql`
 function Edit() {
   let navigate = useNavigate();
   useEffect(() => {
-      let authToken = sessionStorage.getItem('Auth Token')
-      if (!authToken) {
-          navigate('/login')
-      }
-  }, [])
+    let authToken = sessionStorage.getItem("Auth Token");
+    if (!authToken) {
+      navigate("/login");
+    }
+  }, []);
 
   const { id } = useParams();
   const { data, loading } = useQuery(GET_CURRENT_ACTIVITY, {
@@ -214,139 +216,130 @@ function Edit() {
   };
 
   return (
-    <div>
-      <h1>Edit page</h1>
-      {loading ? (
-        <h1>Loading data...</h1>
-      ) : state && catData && cityData ? (
-        <form onSubmit={handleUpdate}>
-          <div className="edit-group">
-            <label>
-              <Select
-                // defaultValue={{label: state?.category.id, value: state?.category.name}}
-                defaultValue={optionsCat[state?.category_id - 1]}
-                options={optionsCat}
-                className="edit-form"
-                name="category"
-                id="category"
-                placeholder="Choose category..."
-                onChange={onChangeCat}
-              />
-            </label>
-          </div>
-          <div className="input-group">
-            <input
-              type="file"
-              className="input-form"
-              onChange={(e) => {
-                setImage(e.target.files[0]);
-              }}
-            />
-          </div>
-          <div className="edit-group">
-            <label>
-              Activity Title
-              <input
-                type="text"
-                className="edit-form"
-                name="title"
-                id="title"
-                maxLength="53"
-                placeholder="Type Title..."
-                value={state?.title || ""}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div className="edit-group">
-            <label>
-              Activity Description
-              <textarea
-                className="edit-form"
-                name="description"
-                id="description"
-                maxLength="255"
-                placeholder="Type Description..."
-                value={state?.description || ""}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div className="edit-group">
-            <label>
-              <Select
-                defaultValue={optionsCity[state?.city_id]}
-                options={optionsCity}
-                className="edit-form"
-                name="city"
-                id="city"
-                placeholder="Choose city..."
-                onChange={onChangeCity}
-              />
-            </label>
-          </div>
-          <div className="edit-group">
-            <label>
-              Select Date
-              <input
-                type="date"
-                name="date"
-                id="date"
-                value={state?.date || ""}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div className="edit-group">
-            <label>
-              Select Time
-              <input
-                type="time"
-                name="time"
-                id="time"
-                min="04:00"
-                max="23:00"
-                value={state?.time.slice(0, 5) || ""}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <div className="edit-group">
-            <label>
-              Number of People
-              <input
-                type="number"
-                name="number_of_people"
-                id="number_of_people"
-                value={state?.number_of_people || ""}
-                onChange={onChange}
-              />
-            </label>
-          </div>
-          <button onClick={handleUpdate}>Submit</button>
-        </form>
-      ) : (
-        <h1>Loading data...</h1>
-      )}
-      <a href="/">
-        <button type="button" style={{ background: "yellow" }}>
-          Home
-        </button>
-      </a>
-      <button
-        type="button"
-        onClick={goBack}
-        style={{ background: "blue", color: "white" }}
+    <div className="edit">
+      <div
+        className="container"
+        style={{ maxWidth: "600px", padding: "0 20px", margin: "50px auto" }}
       >
-        Back
-      </button>
-      {loadingEdit || uploading === true ? (
-        <h1>Updating activity data</h1>
-      ) : editData !== undefined ? (
-        <h1>Successfully update activity</h1>
-      ) : (
-        ""
-      )}
+        <div className="edit-wrapper">
+          <h1 className="edit-title">Edit page</h1>
+          <div onClick={goBack} className="new-top-left">
+            <ImCircleLeft size={28} color="black" />
+          </div>
+          {loading ? (
+            <h1>Loading data...</h1>
+          ) : state && catData && cityData ? (
+            <form onSubmit={handleUpdate} className="edit-form">
+              <div className="category-group">
+                <Select
+                  // defaultValue={{label: state?.category.id, value: state?.category.name}}
+                  defaultValue={optionsCat[state?.category_id - 1]}
+                  options={optionsCat}
+                  className="input-form category-input"
+                  name="category"
+                  id="category"
+                  placeholder="Choose category..."
+                  onChange={onChangeCat}
+                />
+              </div>
+              <div className="edit-input-group">
+                <label className="edit-label">Activity Cover</label>
+                <input
+                  type="file"
+                  className="input-form"
+                  onChange={(e) => {
+                    setImage(e.target.files[0]);
+                  }}
+                />
+              </div>
+              <div className="edit-input-group">
+                <label className="edit-label">Activity Title</label>
+                <input
+                  type="text"
+                  className="input-form text-input"
+                  name="title"
+                  id="title"
+                  maxLength="53"
+                  placeholder="Type Title..."
+                  value={state?.title || ""}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="edit-input-group">
+                <label className="edit-label">Activity Description</label>
+                <textarea
+                  className="input-form textarea-input"
+                  name="description"
+                  id="description"
+                  maxLength="255"
+                  placeholder="Type Description..."
+                  value={state?.description || ""}
+                  onChange={onChange}
+                />
+              </div>
+              <div className="edit-input-group city-group">
+                <label className="edit-label">Add city</label>
+                <Select
+                  defaultValue={optionsCity[state?.city_id]}
+                  options={optionsCity}
+                  className="input-form"
+                  name="city"
+                  id="city"
+                  placeholder="Choose city..."
+                  onChange={onChangeCity}
+                />
+              </div>
+              <div className="side-container">
+                <div className="side-by-side">
+                  <label className="create-label-side">Select Date</label>
+                  <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    className="sbs-input"
+                    value={state?.date || ""}
+                    onChange={onChange}
+                  />
+                </div>
+                <div className="side-by-side">
+                  <label className="create-label-side">Select Time</label>
+                  <input
+                    type="time"
+                    name="time"
+                    id="time"
+                    className="sbs-input"
+                    min="04:00"
+                    max="23:00"
+                    value={state?.time.slice(0, 5) || ""}
+                    onChange={onChange}
+                  />
+                </div>
+                <div className="side-by-side">
+                  <label className="create-label-side">Number of People</label>
+                  <input
+                    type="number"
+                    name="number_of_people"
+                    id="number_of_people"
+                    className="sbs-input"
+                    value={state?.number_of_people || ""}
+                    onChange={onChange}
+                  />
+                </div>
+              </div>
+              <button onClick={handleUpdate} className="edit-button">Submit</button>
+            </form>
+          ) : (
+            <h1>Loading data...</h1>
+          )}
+          {loadingEdit || uploading === true ? (
+            <h1>Updating activity data</h1>
+          ) : editData !== undefined ? (
+            <h1>Successfully update activity</h1>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
     </div>
   );
 }

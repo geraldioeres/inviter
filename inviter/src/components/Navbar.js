@@ -21,12 +21,10 @@ function Navigation() {
 
   let item = UnsignedNav;
 
-  useEffect(() => {
-    let authToken = sessionStorage.getItem("Auth Token");
-    if (authToken) {
-      item = SignedNav;
-    }
-  }, []);
+  let authToken = sessionStorage.getItem("Auth Token");
+  if (authToken) {
+    item = SignedNav;
+  }
 
   return (
     <div className="navigation">

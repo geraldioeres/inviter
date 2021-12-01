@@ -5,6 +5,8 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebase-config";
 import { getAuth } from "firebase/auth";
+import "./Create.css";
+import { ImCircleLeft } from "react-icons/im";
 
 const GET_CATEGORIES = gql`
   query MyQuery {
@@ -155,110 +157,122 @@ function Create() {
     );
   }
 
+  const goBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="create">
-      <h1>Create new activity</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="input-group">
-          <label>
-            <Select
-              options={optionsCat}
-              className="input-form"
-              name="category"
-              id="category"
-              placeholder="Choose category..."
-              onChange={onChangeCat}
-            />
-          </label>
+      <div
+        className="container"
+        style={{ maxWidth: "600px", padding: "0 20px", margin: "50px auto" }}
+      >
+        <div className="create-wrapper">
+          <h1 className="create-title">Create new activity</h1>
+          <div onClick={goBack} className="new-top-left">
+            <ImCircleLeft size={28} color="black" />
+          </div>
+          <form onSubmit={handleSubmit} className="create-form">
+            <div className="category-group">
+              <Select
+                options={optionsCat}
+                className="input-form category-input"
+                name="category"
+                id="category"
+                placeholder="Choose category..."
+                onChange={onChangeCat}
+              />
+            </div>
+            <div className="create-input-group">
+              <label className="create-label">Activity Cover</label>
+              <input
+                type="file"
+                className="input-form"
+                onChange={(e) => {
+                  setImage(e.target.files[0]);
+                }}
+              />
+            </div>
+            <div className="create-input-group">
+              <label className="create-label">Activity Title</label>
+              <input
+                type="text"
+                className="input-form text-input"
+                name="title"
+                id="title"
+                maxLength="53"
+                placeholder="Type Title..."
+                onChange={onChange}
+              />
+            </div>
+            <div className="create-input-group">
+              <label className="create-label">Activity Description</label>
+              <textarea
+                className="input-form textarea-input"
+                name="description"
+                id="description"
+                maxLength="255"
+                rows="3"
+                placeholder="Type Description..."
+                onChange={onChange}
+              />
+            </div>
+            <div className="create-input-group city-group">
+              <label className="create-label">Add City</label>
+              <Select
+                options={optionsCity}
+                className="input-form"
+                name="city"
+                id="city"
+                placeholder="Choose city..."
+                onChange={onChangeCity}
+              />
+            </div>
+            <div className="side-container">
+              <div className="side-by-side">
+                <label className="create-label-side">Select Date</label>
+                <input
+                  type="date"
+                  name="date"
+                  id="date"
+                  className="sbs-input"
+                  onChange={onChange}
+                />
+              </div>
+              <div className="side-by-side">
+                <label className="create-label-side">Select Time</label>
+                <input
+                  type="time"
+                  name="time"
+                  id="time"
+                  className="sbs-input"
+                  min="04:00"
+                  max="23:00"
+                  onChange={onChange}
+                />
+              </div>
+              <div className="side-by-side">
+                <label className="create-label-side">Number of People</label>
+                <input
+                  type="number"
+                  name="people"
+                  id="people"
+                  className="sbs-input"
+                  onChange={onChange}
+                />
+              </div>
+            </div>
+            <button onClick={handleSubmit} className="create-button-2">
+              Submit
+            </button>
+          </form>
+          {insertLoading || uploading === true ? (
+            <h1>Uploading data...</h1>
+          ) : (
+            ""
+          )}
         </div>
-        <div className="input-group">
-          <input
-            type="file"
-            className="input-form"
-            onChange={(e) => {
-              setImage(e.target.files[0]);
-            }}
-          />
-        </div>
-        <div className="input-group">
-          <label>
-            Activity Title
-            <input
-              type="text"
-              className="input-form"
-              name="title"
-              id="title"
-              maxLength="53"
-              placeholder="Type Title..."
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <div className="input-group">
-          <label>
-            Activity Description
-            <textarea
-              className="input-form"
-              name="description"
-              id="description"
-              maxLength="255"
-              placeholder="Type Description..."
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <div className="input-group">
-          <label>
-            <Select
-              options={optionsCity}
-              className="input-form"
-              name="city"
-              id="city"
-              placeholder="Choose city..."
-              onChange={onChangeCity}
-            />
-          </label>
-        </div>
-        <div className="input-group">
-          <label>
-            Select Date
-            <input type="date" name="date" id="date" onChange={onChange} />
-          </label>
-        </div>
-        <div className="input-group">
-          <label>
-            Select Time
-            <input
-              type="time"
-              name="time"
-              id="time"
-              min="04:00"
-              max="23:00"
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <div className="input-group">
-          <label>
-            Number of People
-            <input
-              type="number"
-              name="people"
-              id="people"
-              onChange={onChange}
-            />
-          </label>
-        </div>
-        <button onClick={handleSubmit}>Submit</button>
-      </form>
-      {/* Button to change page delete later*/}
-      <a href="/">
-        <button type="button" style={{ background: "yellow" }}>
-          Home
-        </button>
-      </a>
-      {/* Button to change page delete later*/}
-      {insertLoading || uploading === true ? <h1>Uploading data...</h1> : ""}
+      </div>
     </div>
   );
 }

@@ -1,8 +1,11 @@
 /* CSS Variables */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
 
 :root {
   --color-dark-blue-1: #000235;
+  --color-purple-1: #964362;
+  --color-purple-2: #4A274E;
+
 
   --roboto: "Roboto", cursive;
 }
