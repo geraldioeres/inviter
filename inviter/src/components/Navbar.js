@@ -28,35 +28,46 @@ function Navigation() {
 
   return (
     <div className="navigation">
-      <Navbar bg="white shadow-sm" sticky="top">
+      <Navbar collapseOnSelect expand="lg" bg="white shadow-sm" sticky="top">
         <Container>
           <Navbar.Brand href="/">
             <img src={Logo} alt="inviter-logo" className="logo" />
           </Navbar.Brand>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Nav className="ml-auto">
-            {item.map((item, index) => {
-              return (
-                <Nav.Link
-                  href={item.path}
-                  key={index}
-                  className={item.cName}
-                  style={{
-                    marginRight: "2.5rem",
-                    marginTop: "1px",
-                    fontSize: "16px",
-                  }}
-                >
-                  {" "}
-                  {item.title}
+            <Navbar.Collapse id="responsive-navbar-nav">
+              {item.map((item, index) => {
+                return (
+                  <Nav.Link
+                    href={item.path}
+                    key={index}
+                    className={item.cName}
+                    style={{
+                      marginRight: "2.5rem",
+                      marginTop: "1px",
+                      fontSize: "16px",
+                    }}
+                  >
+                    {" "}
+                    {item.title}
+                  </Nav.Link>
+                );
+              })}
+              {user ? (
+                <Nav.Link href={`user/${user.uid}`} className="user-profile">
+                  {user.email}
                 </Nav.Link>
-              );
-            })}
-            {user ? (
-              <Nav.Link href={`user/${user.uid}`} className="user-profile">{user.email}</Nav.Link>
-            ) : (
-              ""
-            )}
-            {user ? <div onClick={logout} className="log-out">Log out</div> : ""}
+              ) : (
+                ""
+              )}
+              {user ? (
+                <div onClick={logout} className="log-out">
+                  Log out
+                </div>
+              ) : (
+                ""
+              )}
+            </Navbar.Collapse>
           </Nav>
         </Container>
       </Navbar>

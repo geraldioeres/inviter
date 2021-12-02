@@ -65,7 +65,7 @@ function CategorySlide() {
           <Slider {...settings}>
             {data?.project_fe_categories?.map((v) => (
               <div key={v.id}>
-                <a href={v.name} className="slider-link">
+                <a href={`/category/${v.id}`} className="slider-link">
                   <div className="slider-item">
                     <div
                       className="slider-container"

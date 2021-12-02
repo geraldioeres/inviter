@@ -7,9 +7,9 @@ import Edit from "./pages/Edit";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
+import Category from "./pages/Category";
 
 function App() {
-
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,6 +21,7 @@ function App() {
           <Route path="/user/:uid" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/category/:catId" element={<Category />} />
         </Routes>
       </BrowserRouter>
     </div>
